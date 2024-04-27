@@ -1,10 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import axios from 'axios'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [hello, setHello] = useState('Hello World');
+
+  // when page is show and only one time get data from back localhost:3000 with axios
+  useEffect(() => {
+    console.log('useEffect');
+    axios.get('/api')
+      .then((response) => {
+        console.log(response.data);
+        setHello(response.data)
+      })
+  }, [])
 
   return (
     <>
@@ -28,6 +40,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <p>{hello}</p>
     </>
   )
 }
