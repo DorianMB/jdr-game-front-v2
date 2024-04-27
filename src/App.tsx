@@ -11,7 +11,7 @@ function App() {
   // when page is show and only one time get data from back localhost:3000 with axios
   useEffect(() => {
     console.log('useEffect');
-    axios.get(import.meta.env.VITE_API_URL)
+    axios.get(import.meta.env.VITE_API_URL + '/hello')
       .then((response) => {
         console.log(response.data);
         setHello(response.data)
