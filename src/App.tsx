@@ -11,7 +11,14 @@ function App() {
   // when page is show and only one time get data from back localhost:3000 with axios
   useEffect(() => {
     console.log('useEffect');
-    axios.get(import.meta.env.VITE_API_URL + '/hello')
+    axios.get(import.meta.env.VITE_API_URL + '/hello', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Allow-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
+      }
+    })
       .then((response) => {
         console.log(response.data);
         setHello(response.data)
