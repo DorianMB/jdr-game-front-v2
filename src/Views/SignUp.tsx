@@ -49,7 +49,7 @@ function SignUp() {
                         <input className="form-control mb-3" type="text" placeholder="mail" value={email}
                                onChange={(e) => setEmail(e.target.value)}></input>
 
-                        <input className="form-control mb-3" type=" password" placeholder=" password" value={password}
+                        <input className="form-control mb-3" type="password" placeholder="password" value={password}
                                onChange={(e) => setPassword(e.target.value)}></input>
                         <button className=" btn btn-secondary w-100 text-white mb-3" onClick={signup}>S' inscrire
                         </button>

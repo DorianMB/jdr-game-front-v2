@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {parseJwt} from "../utils/jwt.ts";
+import {UserModel} from "../models/user.model.ts";
 
 function Header() {
     const [title] = useState('Jdr Game')
     const [isAuth, setAuth] = useState(false)
+    const [user, setUser] = useState<UserModel>()
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,6 +15,7 @@ function Header() {
             console.log('checkAuth', token);
             if (token) {
                 setAuth(true);
+                setUser(parseJwt(token));
             } else {
                 setAuth(false);
             }
@@ -49,6 +53,12 @@ function Header() {
                         <li className="nav-item">
                             <a className="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
+                        {(user && user.is_admin === 1) && (
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin">Admin</a>
+                            </li>
+                        )
+                        }
                         {isAuth ? (
                             <li className="nav-item">
                                 <a className="nav-link" href="/" onClick={logout}>Logout</a>
