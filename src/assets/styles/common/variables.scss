@@ -1,0 +1,23 @@
+$primary: #4793AF;
+$secondary: #FFC470;
+$accent-1: #DD5746;
+$accent-2: #8B322C;
+$success: #198754FF;
+$info: #0dcaf0FF;
+$warning: #ffc107FF;
+$danger: #dc3545FF;
+$light: #f8f9faFF;
+$dark: #343a40FF;
+
+$theme-colors: (
+        "primary": $primary,
+        "secondary": $secondary,
+        "accent-1": $accent-1,
+        "accent-2": $accent-2,
+        "success": $success,
+        "info": $info,
+        "warning": $warning,
+        "danger": $danger,
+        "light": $light,
+        "dark": $dark
+);
