@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 function Header() {
-    const [title, setTitle] = useState('Jdr Game')
+    const [title] = useState('Jdr Game')
 
     return (
         <nav className="navbar navbar-expand-lg bg-light">

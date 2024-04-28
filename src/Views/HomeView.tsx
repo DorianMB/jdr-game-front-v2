@@ -3,6 +3,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom';
 import {defaullHeader} from "../utils/header.ts";
 import {BACK_PING} from "../utils/api.ts";
+import {authGuard} from "../utils/auth.guard.ts";
 
 function HomeView() {
     const [hello, setHello] = useState('Hello World');
@@ -10,6 +11,7 @@ function HomeView() {
 
     // when page is show and only one time get data from back localhost:3000 with axios
     useEffect(() => {
+        authGuard();
         console.log('useEffect');
         const token = localStorage.getItem('token');
         if (token === null) {
