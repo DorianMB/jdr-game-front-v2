@@ -4,6 +4,7 @@ import axios from "axios";
 import {GET_USERS} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
 import {UserModel} from "../models/user.model.ts";
+import CustomTable from "../Components/CustomTable.tsx";
 
 function Admin() {
     const [users, setUsers] = useState<UserModel[]>([]);
@@ -20,27 +21,9 @@ function Admin() {
     return (
         <>
             <h1 className="text-center mt-5">Admin</h1>
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">name</th>
-                    <th scope="col">mail</th>
-                    <th scope="col">is_admin</th>
-                </tr>
-                </thead>
-                <tbody>
-                {users.map((user) => {
-                    return (
-                        <tr key={user.user_id}>
-                            <td>{user.name}</td>
-                            <td>{user.mail}</td>
-                            <td>{user.is_admin}</td>
-                        </tr>
-                    )
-                })
-                }
-                </tbody>
-            </table>
+            <div className="card w-75 mx-auto">
+                <CustomTable columns={['user_id', 'name', 'mail', 'is_admin']} data={users as []}/>
+            </div>
         </>
     );
 }
