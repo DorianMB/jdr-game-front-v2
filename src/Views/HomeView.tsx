@@ -1,48 +1,51 @@
 import {useEffect, useState} from 'react'
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom';
-import {defaullHeader} from "../utils/header.ts";
-import {BACK_PING} from "../utils/api.ts";
 import {authGuard} from "../utils/auth.guard.ts";
+import {parseJwt} from "../utils/jwt.ts";
+import axios from "axios";
+import {GET_USERS} from "../utils/api.ts";
+import {jwtHeader} from "../utils/header.ts";
 
 function HomeView() {
-    const [hello, setHello] = useState('Hello World');
-    const navigate = useNavigate();
-
+    const [username, setUsername] = useState('Hello World');
+    const [users, setUsers] = useState<{ name: string, user_id: number, mail: string, is_admin: number }[]>([]);
     // when page is show and only one time get data from back localhost:3000 with axios
     useEffect(() => {
         authGuard();
         console.log('useEffect');
         const token = localStorage.getItem('token');
-        if (token === null) {
-            axios.get(BACK_PING, defaullHeader)
-                .then((response) => {
-                    console.log(response.data);
-                    setHello(response.data)
-                });
-        } else {
-            const decodedToken = parseJwt(token);
-            console.log(decodedToken);
-            setHello(decodedToken.username)
-        }
+        const decodedToken = parseJwt(token!);
+        console.log(decodedToken);
+        setUsername(decodedToken.username)
+        axios.get(GET_USERS, jwtHeader(token!)).then((response) => {
+            console.log(response.data);
+            setUsers(response.data);
+        });
     }, [])
-
-    const parseJwt = (token: string) => {
-        if (!token) {
-            return;
-        }
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace("-", "+").replace("_", "/");
-        return JSON.parse(window.atob(base64));
-    };
 
     return (
         <>
-            <div className={'text-center mt-5'}>{hello}</div>
-            <div className={'d-flex justify-content-center align-items-center'}>
-                <button className={'btn btn-primary m-2'} onClick={() => navigate('/signin')}>Sign In</button>
-                <button className={'btn btn-secondary m-2'} onClick={() => navigate('/signup')}>Sign Up</button>
-            </div>
+            <div className="text-center mt-5">{username}</div>
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">name</th>
+                    <th scope="col">mail</th>
+                    <th scope="col">is_admin</th>
+                </tr>
+                </thead>
+                <tbody>
+                {users.map((user) => {
+                    return (
+                        <tr key={user.user_id}>
+                            <td>{user.name}</td>
+                            <td>{user.mail}</td>
+                            <td>{user.is_admin}</td>
+                        </tr>
+                    )
+                })
+                }
+                </tbody>
+            </table>
         </>
     )
 }

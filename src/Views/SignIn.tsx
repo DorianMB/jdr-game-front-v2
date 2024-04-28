@@ -17,6 +17,8 @@ function SignIn() {
         }, defaullHeader).then((response) => {
             console.log(response.data);
             localStorage.setItem('token', response.data);
+            const evt = new CustomEvent("TokenUpdateEvent", {detail: "Token updated"});
+            window.dispatchEvent(evt);
             navigate('/');
         });
     }

@@ -1,7 +1,39 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 function Header() {
     const [title] = useState('Jdr Game')
+    const [isAuth, setAuth] = useState(false)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAuth = () => {
+            const token = localStorage.getItem('token');
+            console.log('checkAuth', token);
+            if (token) {
+                setAuth(true);
+            } else {
+                setAuth(false);
+            }
+        }
+
+        // Check auth status on component mount
+        checkAuth();
+
+        // Listen for changes to localStorage
+        window.addEventListener("TokenUpdateEvent", checkAuth, false);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('TokenUpdateEvent', checkAuth);
+        }
+    }, []);
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        setAuth(false);
+        navigate('/', {replace: true});
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-light">
@@ -17,12 +49,20 @@ function Header() {
                         <li className="nav-item">
                             <a className="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/signin">Sign In</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/signup">Sign Up</a>
-                        </li>
+                        {isAuth ? (
+                            <li className="nav-item">
+                                <a className="nav-link" href="/" onClick={logout}>Logout</a>
+                            </li>
+                        ) : (
+                            <>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/signin">Sign In</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/signup">Sign Up</a>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>
