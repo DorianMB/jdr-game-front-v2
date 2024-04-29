@@ -8,6 +8,7 @@ import {RiGamepadFill} from "@remixicon/react";
 function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [card, setCard] = useState<HTMLElement | null>(null);
     const navigate = useNavigate();
 
     const login = () => {
@@ -23,6 +24,24 @@ function SignIn() {
             navigate('/');
         });
     }
+
+    const parallax = (e: MouseEvent) => {
+        if (card) {
+            // calculate the center of the window
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            // calculate the distance between the center of the window and the mouse cursor
+            const distanceX = e.clientX - centerX;
+            const distanceY = e.clientY - centerY;
+            card.style.backgroundPositionX = 50 + (distanceX / 50) + '%';
+            card.style.backgroundPositionY = 50 + (distanceY / 50) + '%';
+            console.log('parallax', distanceX / 100, distanceY / 100);
+
+        } else {
+            setCard(document.getElementById('card-parallax'))
+        }
+    }
+    window.onmousemove = parallax;
 
     return (
         <>
@@ -43,6 +62,7 @@ function SignIn() {
                 </div>
                 <div className="col-md-6 d-flex justify-content-center align-items-center">
                     <div
+                        id="card-parallax"
                         className="card position-relative card-inner h-75 w-75 d-flex justify-content-center align-items-center">
                         <div
                             className="position-absolute mx-auto card card-glass w-75">

@@ -1,6 +1,8 @@
 @import "variables";
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 
+$bg-url: "https://cdn.discordapp.com/attachments/1066052875710627893/1234411334523813980/dorianmb_wallpaper_rpg_game_looter__shooter_754d4edd-2e2b-4f2b-9394-a2604927cfad.png?ex=6630a2a4&is=662f5124&hm=3934808f9cb561fe2153eb0ee6e3dec360e0a35850d4a7721c81e07fca55b5a6&";
+
 .card {
   border: none;
   border-radius: $radius;
@@ -8,10 +10,10 @@
 
   &.card-inner {
     box-shadow: $shadow-inner;
-    background-size: cover;
+    background-size: 120%;
     background-repeat: no-repeat;
-    background-position: center;
-    background-image: url("https://www.mordeo.org/files/uploads/2018/06/No-Mans-Sky-Video-Game-HD-Mobile-Wallpaper-950x1689.jpg");
+    background-position: 50% 50%;
+    background-image: url($bg-url);
   }
 
   &.card-glass {
