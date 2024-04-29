@@ -18,7 +18,7 @@ function SignUp() {
             name: name,
             mail: email,
             password: password
-        }, defaullHeader).then((response) => {
+        }, defaullHeader).then(() => {
             navigate('/');
         });
     }

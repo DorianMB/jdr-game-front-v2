@@ -12,13 +12,20 @@ interface CustomTableProps {
     refreshData: () => void;
 }
 
-function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod, refreshData}: CustomTableProps) {
+function CustomTable({
+                         name,
+                         config,
+                         data,
+                         postMethod,
+                         patchMethod,
+                         deleteMethod,
+                         refreshData
+                     }: CustomTableProps) {
     const [isEdit, setIsEdit] = useState<boolean[]>([]);
     const [editData, setEditData] = useState<Record<string, string | number>>({});
 
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
-        console.log('data ' + name, data, config);
     }, []);
 
     const findOption = (option: {
@@ -60,7 +67,12 @@ function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod,
     }
 
     const addElement = () => {
-        data.push({isNew: 1});
+        const newData: any = {...config.defaultData};
+        Object.keys(newData).forEach((key) => {
+            newData[key] = '';
+        });
+        newData.isNew = 1;
+        data.push(newData);
         setIsEdit((prev) => {
             const copy = [...prev];
             copy.push(true);
@@ -71,8 +83,11 @@ function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod,
 
     return (
         <>
-            <button className="btn btn-success float-end m-3" onClick={addElement}><RiAddLine></RiAddLine> {name}
-            </button>
+            {
+                config.canAdd &&
+                <button className="btn btn-success float-end m-3" onClick={addElement}><RiAddLine></RiAddLine> {name}
+                </button>
+            }
             <table className="table table-bordered table-striped text-center custom-table">
                 <thead>
                 <tr>
@@ -112,7 +127,8 @@ function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod,
                                             }
                                             {
                                                 config.columsTypes[indexCol] === 'select' &&
-                                                <select className="form-select" defaultValue={editData[column]}
+                                                <select className="form-select"
+                                                        defaultValue={editData[column] ? editData[column] : ''}
                                                         onChange={(e) => {
                                                             setEditData({...editData, [column]: e.target.value})
                                                         }}>
@@ -125,6 +141,7 @@ function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod,
                                                             </option>
                                                         ))
                                                     }
+                                                    <option value={''}>-</option>
                                                 </select>
                                             }
                                         </div>
@@ -135,7 +152,7 @@ function CustomTable({name, config, data, postMethod, patchMethod, deleteMethod,
                                     <td key={'col-' + indexCol}>
                                         <div className="d-flex justify-content-center align-items-center">
                                             {config.columsTypes[indexCol] !== 'select' ? row[column] :
-                                                (config.selectOptions![column].find((option) => findOption(option, row, column))?.label || 'Option non trouvée')
+                                                (config.selectOptions![column].find((option) => findOption(option, row, column))?.label || row[column])
                                             }
                                         </div>
                                     </td>

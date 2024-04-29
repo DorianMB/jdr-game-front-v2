@@ -1,5 +1,6 @@
 export const defaullHeader = {
     headers: {
+        'Cache-Control': 'no-cache',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Allow-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -10,6 +11,7 @@ export const defaullHeader = {
 export const jwtHeader = (token: string) => {
     return {
         headers: {
+            'Cache-Control': 'no-cache',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Allow-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',

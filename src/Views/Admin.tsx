@@ -20,8 +20,7 @@ function Admin() {
     }, []);
 
     useEffect(() => {
-        if (users.length > 0 && characters.length > 0) {
-            console.log('users', users);
+        if (users.length > 0 && characters) {
             setConfigTabs([
                 {
                     title: 'Users',
