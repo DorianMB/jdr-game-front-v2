@@ -19,8 +19,8 @@ interface SelectOption {
 }
 
 export const configTableUsers = {
-    columnsKeys: ['user_id', 'name', 'mail', 'is_admin'],
-    columsTypes: ['number', 'string', 'string', 'select'],
+    columnsKeys: ['user_id', 'name', 'mail', 'is_admin', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'string', 'string', 'select', 'string', 'string'],
     selectOptions: {
         is_admin: [{value: 0, label: 'false'}, {value: 1, label: 'true'}]
     },
@@ -32,8 +32,8 @@ export const configTableUsers = {
 export const configTableCharacters = (users: UserModel[]): ConfigTable => {
     const optionUser: SelectOption[] = users.map((user: UserModel) => ({value: user.user_id, label: user.name}));
     return {
-        columnsKeys: ['character_id', 'picture', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id'],
-        columsTypes: ['number', 'string', 'number', 'number', 'select', 'number', 'number', 'number'],
+        columnsKeys: ['character_id', 'picture', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id', 'created_at', 'updated_at'],
+        columsTypes: ['number', 'string', 'number', 'number', 'select', 'number', 'number', 'number', 'string', 'string'],
         selectOptions: {
             user_id: optionUser
         },
