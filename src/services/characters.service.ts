@@ -9,10 +9,19 @@ export const getCharacters = async () => {
     return response.data;
 }
 
-export const patchCharacter = async (data: CharacterModel) => {
-    console.log(data);
+export const postCharacter = async (data: CharacterModel) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(CHARACTERS, data, jwtHeader(token!));
+    return response.data;
 }
 
-export const deleteCharacter = async (data: CharacterModel) => {
-    console.log(data.caracter_id);
+export const patchCharacter = async (data: CharacterModel) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.patch(CHARACTERS, data, jwtHeader(token!));
+    return response.data;
+}
+
+export const deleteCharacter = async (data: CharacterModel): Promise<void> => {
+    const token = localStorage.getItem('token');
+    await axios.delete(CHARACTERS + '/' + data.character_id, jwtHeader(token!));
 }

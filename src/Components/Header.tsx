@@ -12,7 +12,6 @@ function Header() {
     useEffect(() => {
         const checkAuth = () => {
             const token = localStorage.getItem('token');
-            console.log('checkAuth', token);
             if (token) {
                 setAuth(true);
                 setUser(parseJwt(token));

@@ -9,6 +9,12 @@ export const getUsers = async () => {
     return response.data;
 }
 
+export const postUser = async (user: UserModel): Promise<UserModel> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(USERS, user, jwtHeader(token!));
+    return response.data;
+}
+
 export const patchUser = async (user: Partial<UserModel>): Promise<UserModel> => {
     const token = localStorage.getItem('token');
     const response = await axios.patch(USERS, user, jwtHeader(token!));
@@ -16,5 +22,6 @@ export const patchUser = async (user: Partial<UserModel>): Promise<UserModel> =>
 }
 
 export const deleteUser = async (user: UserModel): Promise<void> => {
-    console.log(user.user_id);
+    const token = localStorage.getItem('token');
+    await axios.delete(USERS + '/' + user.user_id, jwtHeader(token!));
 }

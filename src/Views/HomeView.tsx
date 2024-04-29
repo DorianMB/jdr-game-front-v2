@@ -7,10 +7,8 @@ function HomeView() {
     // when page is show and only one time get data from back localhost:3000 with axios
     useEffect(() => {
         authGuard();
-        console.log('useEffect');
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token!);
-        console.log(decodedToken);
         setUsername(decodedToken.username)
     }, [])
 

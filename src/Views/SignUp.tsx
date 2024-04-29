@@ -14,13 +14,11 @@ function SignUp() {
     const navigate = useNavigate();
 
     const signup = () => {
-        console.log('login')
         axios.post(SIGNUP, {
             name: name,
             mail: email,
             password: password
         }, defaullHeader).then((response) => {
-            console.log(response.data);
             navigate('/');
         });
     }
@@ -35,8 +33,6 @@ function SignUp() {
             const distanceY = e.clientY - centerY;
             card.style.backgroundPositionX = 50 + (distanceX / 50) + '%';
             card.style.backgroundPositionY = 50 + (distanceY / 50) + '%';
-            console.log('parallax', distanceX / 100, distanceY / 100);
-
         } else {
             setCard(document.getElementById('card-parallax'))
         }

@@ -12,12 +12,10 @@ function SignIn() {
     const navigate = useNavigate();
 
     const login = () => {
-        console.log('login')
         axios.post(SIGNIN, {
             mail: email,
             password: password
         }, defaullHeader).then((response) => {
-            console.log(response.data);
             localStorage.setItem('token', response.data);
             const evt = new CustomEvent("TokenUpdateEvent", {detail: "Token updated"});
             window.dispatchEvent(evt);
@@ -35,8 +33,6 @@ function SignIn() {
             const distanceY = e.clientY - centerY;
             card.style.backgroundPositionX = 50 + (distanceX / 50) + '%';
             card.style.backgroundPositionY = 50 + (distanceY / 50) + '%';
-            console.log('parallax', distanceX / 100, distanceY / 100);
-
         } else {
             setCard(document.getElementById('card-parallax'))
         }
