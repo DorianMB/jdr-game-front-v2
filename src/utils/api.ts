@@ -4,3 +4,4 @@ export const SIGNIN = BASE_URL + '/auth/signin';
 export const SIGNUP = BASE_URL + '/auth/signup';
 export const USERS = BASE_URL + '/users';
 export const CHARACTERS = BASE_URL + '/characters';
+export const BAGS = BASE_URL + '/bags';

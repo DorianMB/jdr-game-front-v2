@@ -26,7 +26,7 @@ export const configTableUsers = {
         is_admin: [{value: 0, label: 'false'}, {value: 1, label: 'true'}]
     },
     isDisabled: ["user_id", "created_at", "updated_at"],
-    defaultData: {user_id: null, name: '', mail: '', is_admin: 0},
+    defaultData: {user_id: null, name: '', mail: '', is_admin: 0, created_at: '', updated_at: ''},
     actions: ['Edit', 'Delete'],
     canAdd: false
 };
@@ -48,9 +48,20 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
             user_id: 0,
             equipment_id: 0,
             stat_id: 0,
-            bag_id: 0
+            bag_id: 0,
+            created_at: '',
+            updated_at: ''
         },
         actions: ['Edit', 'Delete', 'View'],
         canAdd: true
     }
 }
+
+export const configTableBags = {
+    columnsKeys: ['bag_id', 'length', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'number', 'date', 'date'],
+    isDisabled: ["bag_id", "created_at", "updated_at"],
+    defaultData: {bag_id: null, length: '', created_at: '', updated_at: ''},
+    actions: ['Edit', 'Delete', 'View'],
+    canAdd: true
+};

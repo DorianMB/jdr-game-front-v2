@@ -3,20 +3,24 @@ import {useEffect, useState} from "react";
 import {UserModel} from "../models/user.model.ts";
 import CustomTable from "../Components/CustomTable.tsx";
 import {deleteUser, getUsers, patchUser, postUser} from "../services/users.service.ts";
-import {configTableCharacters, configTableUsers} from "../utils/config.tables.ts";
+import {configTableBags, configTableCharacters, configTableUsers} from "../utils/config.tables.ts";
 import {CharacterModel} from "../models/character.model.ts";
 import {deleteCharacter, getCharacters, patchCharacter, postCharacter} from "../services/characters.service.ts";
 import {JSX} from "react/jsx-runtime";
+import {BagModel} from "../models/bag.model.ts";
+import {deleteBag, getBags, patchBag, postBag} from "../services/bags.service.ts";
 
 function Admin() {
     const [users, setUsers] = useState<UserModel[]>([]);
     const [characters, setCharacters] = useState<CharacterModel[]>([]);
+    const [bags, setBags] = useState<BagModel[]>([]);
     const [configTabs, setConfigTabs] = useState<{ title: string, content: JSX.Element }[]>([]);
 
     useEffect(() => {
         adminGuard();
         refreshUsers();
         refreshCaracters();
+        refreshBags();
     }, []);
 
     useEffect(() => {
@@ -35,7 +39,14 @@ function Admin() {
                                           postMethod={postCharacter} patchMethod={patchCharacter}
                                           deleteMethod={deleteCharacter}
                                           refreshData={refreshCaracters}/>
-                }
+                },
+                {
+                    title: 'Bags',
+                    content: <CustomTable name={'Bags'} config={configTableBags} data={bags}
+                                          postMethod={postBag} patchMethod={patchBag}
+                                          deleteMethod={deleteBag}
+                                          refreshData={refreshBags}/>
+                },
             ]);
         }
     }, [users, characters]);
@@ -49,6 +60,12 @@ function Admin() {
     const refreshCaracters = () => {
         getCharacters().then((data) => {
             setCharacters(data)
+        });
+    }
+
+    const refreshBags = () => {
+        getBags().then((data) => {
+            setBags(data)
         });
     }
 

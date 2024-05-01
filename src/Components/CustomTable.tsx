@@ -27,10 +27,11 @@ function CustomTable({
 
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
-        OrderData(data);
+        OrderData();
     }, []);
 
-    const OrderData = (data: any[]) => {
+    const OrderData = () => {
+        console.log(data);
         return data.sort((a, b) => {
             if (a.updated_at > b.updated_at) {
                 return -1;
@@ -61,9 +62,11 @@ function CustomTable({
                 delete editData.isNew;
                 const res = await postMethod(editData);
                 data[key] = {...res};
+                refreshData();
             } else {
                 const res = await patchMethod(editData);
                 data[key] = {...res};
+                refreshData();
             }
         }
         setIsEdit((prev) => {

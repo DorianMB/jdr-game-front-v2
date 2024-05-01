@@ -6,5 +6,7 @@ export interface CharacterModel {
     user_id: number,
     equipment_id: number,
     stat_id: number,
-    bag_id: number
+    bag_id: number,
+    created_at: Date,
+    updated_at: Date
 }
