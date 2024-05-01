@@ -4,6 +4,7 @@ export interface ConfigTable {
     columnsKeys: string[];
     columsTypes: string[];
     selectOptions?: SelectOptions;
+    isDisabled?: string[];
     defaultData?: object;
     actions?: string[];
     canAdd?: boolean;
@@ -24,6 +25,7 @@ export const configTableUsers = {
     selectOptions: {
         is_admin: [{value: 0, label: 'false'}, {value: 1, label: 'true'}]
     },
+    isDisabled: ["user_id", "created_at", "updated_at"],
     defaultData: {user_id: null, name: '', mail: '', is_admin: 0},
     actions: ['Edit', 'Delete'],
     canAdd: false
@@ -37,6 +39,7 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
         selectOptions: {
             user_id: optionUser
         },
+        isDisabled: ["character_id", "created_at", "updated_at"],
         defaultData: {
             character_id: null,
             picture: '',

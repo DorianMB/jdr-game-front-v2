@@ -27,7 +27,20 @@ function CustomTable({
 
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
+        OrderData(data);
     }, []);
+
+    const OrderData = (data: any[]) => {
+        return data.sort((a, b) => {
+            if (a.updated_at > b.updated_at) {
+                return -1;
+            }
+            if (a.updated_at < b.updated_at) {
+                return 1;
+            }
+            return 0;
+        });
+    }
 
     const findOption = (option: {
         value: string | number,
@@ -146,6 +159,7 @@ function CustomTable({
                                                            onChange={(e) => {
                                                                setEditData({...editData, [column]: e.target.value})
                                                            }}
+                                                           disabled={config.isDisabled && config.isDisabled.includes(column)}
                                                            defaultValue={editData[column]}/>
                                                 }
                                                 {
@@ -154,6 +168,7 @@ function CustomTable({
                                                            onChange={(e) => {
                                                                setEditData({...editData, [column]: e.target.value})
                                                            }}
+                                                           disabled={config.isDisabled && config.isDisabled.includes(column)}
                                                            defaultValue={editData[column]}/>
                                                 }
                                                 {
@@ -162,6 +177,7 @@ function CustomTable({
                                                               onChange={(e) => {
                                                                   setEditData({...editData, [column]: e.target.value})
                                                               }}
+                                                              disabled={config.isDisabled && config.isDisabled.includes(column)}
                                                               defaultValue={editData[column]}/>
                                                 }
                                                 {
@@ -173,6 +189,7 @@ function CustomTable({
                                                 {
                                                     config.columsTypes[indexCol] === 'select' &&
                                                     <select className="form-select"
+                                                            disabled={config.isDisabled && config.isDisabled.includes(column)}
                                                             defaultValue={editData[column] ? editData[column] : ''}
                                                             onChange={(e) => {
                                                                 setEditData({...editData, [column]: e.target.value})
@@ -262,7 +279,7 @@ function CustomTable({
             </div>
 
             {/* MODAL */}
-            <div className="modal fade" id={'modalDetails-' + name} tabIndex={-1}
+            <div className="modal modal-detail fade" id={'modalDetails-' + name} tabIndex={-1}
                  aria-labelledby={'modalDetailsLabel-' + name}
                  aria-hidden="true">
                 <div className="modal-dialog">
@@ -278,17 +295,18 @@ function CustomTable({
                                     <div key={'modal-' + index}
                                          className="d-flex flex-column align-items-center justify-content-center">
                                         {config.columsTypes[index] === 'select' &&
-                                            <span>{(config.selectOptions![column].find((option) => findOption(option, dataToShow, column))?.label ||
+                                            <span>{column} : {(config.selectOptions![column].find((option) => findOption(option, dataToShow, column))?.label ||
                                                 dataToShow[column])}</span>
                                         }
                                         {config.columsTypes[index] === 'date' &&
-                                            <span>{new Date(dataToShow[column]).toLocaleDateString() + ' ' + new Date(dataToShow[column]).toLocaleTimeString()}</span>
+                                            <span>{column} : {new Date(dataToShow[column]).toLocaleDateString() + ' ' + new Date(dataToShow[column]).toLocaleTimeString()}</span>
                                         }
                                         {config.columsTypes[index] === 'url' &&
-                                            <img src={dataToShow[column]} alt={dataToShow[column]}/>
+                                            <img className="img-fluid" src={dataToShow[column]}
+                                                 alt={dataToShow[column]}/>
                                         }
                                         {config.columsTypes[index] !== 'select' && config.columsTypes[index] !== 'date' && config.columsTypes[index] !== 'url' &&
-                                            <span>{dataToShow[column]}</span>
+                                            <span>{column} : {dataToShow[column]}</span>
                                         }
                                     </div>
                                 ))
