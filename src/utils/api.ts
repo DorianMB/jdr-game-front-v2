@@ -5,3 +5,5 @@ export const SIGNUP = BASE_URL + '/auth/signup';
 export const USERS = BASE_URL + '/users';
 export const CHARACTERS = BASE_URL + '/characters';
 export const BAGS = BASE_URL + '/bags';
+export const EQUIPMENTS = BASE_URL + '/equipments';
+export const STATS = BASE_URL + '/stats';

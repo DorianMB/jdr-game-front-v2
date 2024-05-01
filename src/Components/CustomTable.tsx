@@ -31,7 +31,6 @@ function CustomTable({
     }, []);
 
     const OrderData = () => {
-        console.log(data);
         return data.sort((a, b) => {
             if (a.updated_at > b.updated_at) {
                 return -1;

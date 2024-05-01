@@ -3,17 +3,29 @@ import {useEffect, useState} from "react";
 import {UserModel} from "../models/user.model.ts";
 import CustomTable from "../Components/CustomTable.tsx";
 import {deleteUser, getUsers, patchUser, postUser} from "../services/users.service.ts";
-import {configTableBags, configTableCharacters, configTableUsers} from "../utils/config.tables.ts";
+import {
+    configTableBags,
+    configTableCharacters,
+    configTableEquipments,
+    configTableStats,
+    configTableUsers
+} from "../utils/config.tables.ts";
 import {CharacterModel} from "../models/character.model.ts";
 import {deleteCharacter, getCharacters, patchCharacter, postCharacter} from "../services/characters.service.ts";
 import {JSX} from "react/jsx-runtime";
 import {BagModel} from "../models/bag.model.ts";
 import {deleteBag, getBags, patchBag, postBag} from "../services/bags.service.ts";
+import {deleteEquipment, getEquipments, patchEquipment, postEquipment} from "../services/equipments.service.ts";
+import {EquipmentModel} from "../models/equipment.model.ts";
+import {deleteStat, getStats, patchStat, postStat} from "../services/stats.service.ts";
+import {StatModel} from "../models/stat.model.ts";
 
 function Admin() {
     const [users, setUsers] = useState<UserModel[]>([]);
     const [characters, setCharacters] = useState<CharacterModel[]>([]);
     const [bags, setBags] = useState<BagModel[]>([]);
+    const [equipments, setEquipments] = useState<EquipmentModel[]>([]);
+    const [stats, setStats] = useState<StatModel[]>([]);
     const [configTabs, setConfigTabs] = useState<{ title: string, content: JSX.Element }[]>([]);
 
     useEffect(() => {
@@ -21,6 +33,8 @@ function Admin() {
         refreshUsers();
         refreshCaracters();
         refreshBags();
+        refreshEquipments();
+        refreshStats();
     }, []);
 
     useEffect(() => {
@@ -47,6 +61,20 @@ function Admin() {
                                           deleteMethod={deleteBag}
                                           refreshData={refreshBags}/>
                 },
+                {
+                    title: 'Equipments',
+                    content: <CustomTable name={'Equipments'} config={configTableEquipments} data={equipments}
+                                          postMethod={postEquipment} patchMethod={patchEquipment}
+                                          deleteMethod={deleteEquipment}
+                                          refreshData={refreshEquipments}/>
+                },
+                {
+                    title: 'Stats',
+                    content: <CustomTable name={'Stats'} config={configTableStats} data={stats}
+                                          postMethod={postStat} patchMethod={patchStat}
+                                          deleteMethod={deleteStat}
+                                          refreshData={refreshStats}/>
+                },
             ]);
         }
     }, [users, characters]);
@@ -66,6 +94,18 @@ function Admin() {
     const refreshBags = () => {
         getBags().then((data) => {
             setBags(data)
+        });
+    }
+
+    const refreshEquipments = () => {
+        getEquipments().then((data) => {
+            setEquipments(data)
+        });
+    }
+
+    const refreshStats = () => {
+        getStats().then((data) => {
+            setStats(data)
         });
     }
 

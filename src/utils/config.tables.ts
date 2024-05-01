@@ -65,3 +65,43 @@ export const configTableBags = {
     actions: ['Edit', 'Delete', 'View'],
     canAdd: true
 };
+
+export const configTableEquipments = {
+    columnsKeys: ['equipment_id', 'helmet_id', 'chestplate_id', 'gloves_id', 'boots_id', 'primary_weapon_id', 'secondary_weapon_id', 'primary_magic_item_id', 'secondary_magic_item_id', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'date', 'date'],
+    isDisabled: ["equipment_id", "created_at", "updated_at"],
+    defaultData: {
+        equipment_id: null,
+        helmet_id: '',
+        chestplate_id: '',
+        gloves_id: '',
+        boots_id: '',
+        primary_weapon_id: '',
+        secondary_weapon_id: '',
+        primary_magic_item_id: '',
+        secondary_magic_item_id: '',
+        created_at: '',
+        updated_at: ''
+    },
+    actions: ['Edit', 'Delete', 'View'],
+    canAdd: true
+};
+
+export const configTableStats = {
+    columnsKeys: ['stat_id', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'date', 'date'],
+    isDisabled: ["stat_id", "created_at", "updated_at"],
+    defaultData: {
+        stat_id: null,
+        strength: '',
+        intelligence: '',
+        speed: '',
+        charisma: '',
+        health: '',
+        luck: '',
+        created_at: '',
+        updated_at: ''
+    },
+    actions: ['Edit', 'Delete', 'View'],
+    canAdd: true
+};
