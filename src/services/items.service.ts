@@ -25,3 +25,11 @@ export const deleteItem = async (item: ItemModel): Promise<void> => {
     const token = localStorage.getItem('token');
     await axios.delete(ITEMS + '/' + item.item_id, jwtHeader(token!));
 }
+
+export const generateItemFromLootTable = async (lootTableId: number): Promise<any> => {
+    console.log('generateItemFromLootTable', lootTableId);
+    return true;
+    // const token = localStorage.getItem('token');
+    // const response = await axios.get(ITEMS + '/generate/' + lootTableId, jwtHeader(token!));
+    // return response.data;
+}

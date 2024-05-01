@@ -1,4 +1,5 @@
 import {UserModel} from "../models/user.model.ts";
+import {getRandomLootTable} from "../services/loot-tables.service.ts";
 
 export interface ConfigTable {
     columnsKeys: string[];
@@ -7,6 +8,7 @@ export interface ConfigTable {
     isDisabled?: string[];
     defaultData?: object;
     actions?: string[];
+    customActions?: { label: string, action: () => Promise<any>, color: string }[];
     canAdd?: boolean;
 }
 
@@ -169,7 +171,16 @@ export const configTableLoot = {
         created_at: '',
         updated_at: ''
     },
-    actions: ['Edit', 'Delete', 'View'],
+    actions: ['Edit', 'Delete', 'View', 'Generate'],
+    customActions: [
+        {
+            label: 'Random',
+            action: async () => {
+                return await getRandomLootTable();
+            },
+            color: 'primary'
+        }
+    ],
     canAdd: true
 };
 

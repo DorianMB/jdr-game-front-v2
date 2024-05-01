@@ -25,3 +25,9 @@ export const deleteLootTable = async (lootTable: LootTableModel): Promise<void> 
     const token = localStorage.getItem('token');
     await axios.delete(LOOTTABLES + '/' + lootTable.loot_table_id, jwtHeader(token!));
 }
+
+export const getRandomLootTable = async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(LOOTTABLES + '/random', jwtHeader(token!));
+    return response.data;
+}

@@ -24,7 +24,7 @@ import {StatModel} from "../models/stat.model.ts";
 import {LootTableModel} from "../models/loot-table.model.ts";
 import {ItemModel} from "../models/item.model.ts";
 import {deleteLootTable, getLootTables, patchLootTable, postLootTable} from "../services/loot-tables.service.ts";
-import {deleteItem, getItems, patchItem, postItem} from "../services/items.service.ts";
+import {deleteItem, generateItemFromLootTable, getItems, patchItem, postItem} from "../services/items.service.ts";
 
 function Admin() {
     const [users, setUsers] = useState<UserModel[]>([]);
@@ -89,7 +89,7 @@ function Admin() {
                     title: 'Loot Tables',
                     content: <CustomTable name={'LootTables'} config={configTableLoot} data={lootTables}
                                           postMethod={postLootTable} patchMethod={patchLootTable}
-                                          deleteMethod={deleteLootTable}
+                                          deleteMethod={deleteLootTable} generateMethod={generateItemFromLootTable}
                                           refreshData={refreshLootTables}/>
                 },
                 {
@@ -101,7 +101,7 @@ function Admin() {
                 },
             ]);
         }
-    }, [users, characters, stats, bags, equipments]);
+    }, [users, characters, stats, bags, equipments, lootTables, items]);
 
     const refreshUsers = () => {
         getUsers().then((data) => {
@@ -148,7 +148,7 @@ function Admin() {
     return (
         <>
             <h1 className="text-center mt-5">Admin</h1>
-            <ul className="nav nav-tabs px-5" id="adminTab" role="tablist">
+            <ul className="nav nav-tabs justify-content-center mt-4" id="adminTab" role="tablist">
                 {
                     configTabs && configTabs.map((item, index) => (
                         <li className="nav-item" role="presentation" key={'nav-item-' + index}>

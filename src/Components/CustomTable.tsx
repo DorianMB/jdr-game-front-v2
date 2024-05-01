@@ -1,6 +1,7 @@
 import {RiAddLine, RiDeleteBin6Line, RiEdit2Line, RiEyeLine, RiSaveFill} from "@remixicon/react";
 import React, {useEffect, useState} from "react";
 import {ConfigTable} from "../utils/config.tables.ts";
+import {LootTableModel} from "../models/loot-table.model.ts";
 
 interface CustomTableProps {
     name: string;
@@ -9,6 +10,7 @@ interface CustomTableProps {
     postMethod: (data: any) => Promise<any>;
     patchMethod: (data: any) => Promise<any>;
     deleteMethod: (data: any) => Promise<any>;
+    generateMethod?: (data: any) => Promise<any>;
     refreshData: () => void;
 }
 
@@ -19,6 +21,7 @@ function CustomTable({
                          postMethod,
                          patchMethod,
                          deleteMethod,
+                         generateMethod,
                          refreshData
                      }: CustomTableProps) {
     const [isEdit, setIsEdit] = useState<boolean[]>([]);
@@ -82,6 +85,15 @@ function CustomTable({
         }
     }
 
+    const handleGenerate = async (lootTable: LootTableModel) => {
+        if (generateMethod && lootTable.loot_table_id) {
+            if (confirm(`Générer un élément ? (${lootTable.name})`)) {
+                await generateMethod(lootTable.loot_table_id);
+                refreshData();
+            }
+        }
+    }
+
     const addElement = () => {
         const newData: any = {...config.defaultData};
         Object.keys(newData).forEach((key) => {
@@ -97,11 +109,29 @@ function CustomTable({
         setEditData({isNew: 1});
     }
 
+    const launchCustomAction = (action: () => Promise<any>) => {
+        action().then((res) => {
+            if (res) {
+                refreshData();
+            }
+        });
+    }
+
     return (
         <>
             {
                 config.canAdd &&
                 <div className="d-flex justify-content-end">
+                    {
+                        config.customActions?.map((custom, index) => (
+                            <button key={'custom-action-' + index}
+                                    className={`btn text-white m-3 btn-${custom.color}`}
+                                    onClick={() => launchCustomAction(custom.action)}>
+                                <RiAddLine></RiAddLine> {custom.label}
+                            </button>
+                        ))
+
+                    }
                     <button className="btn btn-success m-3" onClick={addElement}>
                         <RiAddLine></RiAddLine> {name}
                     </button>
@@ -260,6 +290,14 @@ function CustomTable({
                                                             data-bs-target={'#modalDetails-' + name}
                                                             className="btn text-white mx-2 btn-primary">
                                                         <RiEyeLine/>
+                                                    </button>
+                                                }
+                                                {
+                                                    action === 'Generate' &&
+                                                    <button key={'action-' + actionkey}
+                                                            onClick={() => handleGenerate(row)}
+                                                            className="btn text-white mx-2 btn-success">
+                                                        <RiAddLine/>
                                                     </button>
                                                 }
                                             </React.Fragment>
