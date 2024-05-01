@@ -1,10 +1,26 @@
-.custom-table {
-  .th-200 {
-    width: 200px;
+.custom-table-container {
+  overflow-x: scroll;
+  max-width: 100%;
+
+  .th-auto {
+    min-width: 100px;
+  }
+
+  .th-500 {
+    min-width: 500px;
+    max-width: 500px;
   }
 
   td {
-    padding: 0;
+    padding: 0 8px;
+    max-width: 500px;
+    overflow: scroll;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     div.d-flex {
       padding: 8px;

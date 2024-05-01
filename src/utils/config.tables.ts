@@ -20,7 +20,7 @@ interface SelectOption {
 
 export const configTableUsers = {
     columnsKeys: ['user_id', 'name', 'mail', 'is_admin', 'created_at', 'updated_at'],
-    columsTypes: ['number', 'string', 'string', 'select', 'string', 'string'],
+    columsTypes: ['number', 'string', 'string', 'select', 'date', 'date'],
     selectOptions: {
         is_admin: [{value: 0, label: 'false'}, {value: 1, label: 'true'}]
     },
@@ -32,8 +32,8 @@ export const configTableUsers = {
 export const configTableCharacters = (users: UserModel[]): ConfigTable => {
     const optionUser: SelectOption[] = users.map((user: UserModel) => ({value: user.user_id, label: user.name}));
     return {
-        columnsKeys: ['character_id', 'picture', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id', 'created_at', 'updated_at'],
-        columsTypes: ['number', 'string', 'number', 'number', 'select', 'number', 'number', 'number', 'string', 'string'],
+        columnsKeys: ['character_id', 'name', 'picture', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id', 'created_at', 'updated_at'],
+        columsTypes: ['number', 'string', 'url', 'number', 'number', 'select', 'number', 'number', 'number', 'date', 'date'],
         selectOptions: {
             user_id: optionUser
         },
@@ -47,7 +47,7 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
             stat_id: 0,
             bag_id: 0
         },
-        actions: ['Edit', 'Delete'],
+        actions: ['Edit', 'Delete', 'View'],
         canAdd: true
     }
 }

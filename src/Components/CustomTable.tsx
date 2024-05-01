@@ -23,6 +23,7 @@ function CustomTable({
                      }: CustomTableProps) {
     const [isEdit, setIsEdit] = useState<boolean[]>([]);
     const [editData, setEditData] = useState<Record<string, string | number>>({});
+    const [dataToShow, setDataToShow] = useState({});
 
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
@@ -85,125 +86,220 @@ function CustomTable({
         <>
             {
                 config.canAdd &&
-                <button className="btn btn-success float-end m-3" onClick={addElement}><RiAddLine></RiAddLine> {name}
-                </button>
+                <div className="d-flex justify-content-end">
+                    <button className="btn btn-success m-3" onClick={addElement}>
+                        <RiAddLine></RiAddLine> {name}
+                    </button>
+                </div>
             }
-            <table className="table table-bordered table-striped text-center custom-table">
-                <thead>
-                <tr>
-                    {config.columnsKeys.map((column) => (
-                        <th key={'head-' + column} className="th-200">{column}</th>
-                    ))}
-                    {
-                        config.actions &&
-                        <th className="th-200">Actions</th>
-                    }
-                </tr>
-                </thead>
-                <tbody>
-                {data.map((row, index) => (
-                    <tr key={'row-' + index}>
+            {/*TABLE*/}
+            <div className="custom-table-container">
+                <table className="table table-bordered table-striped w-100 text-center">
+                    <thead>
+                    <tr>
                         {config.columnsKeys.map((column, indexCol) => (
-                            <React.Fragment key={'rf-col-' + indexCol}>
+                            <React.Fragment key={'rf-th-' + column}>
                                 {
-                                    isEdit[index] &&
-                                    <td key={'col-' + indexCol}>
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            {
-                                                config.columsTypes[indexCol] === 'number' &&
-                                                <input type="number" className="form-control"
-                                                       onChange={(e) => {
-                                                           setEditData({...editData, [column]: e.target.value})
-                                                       }}
-                                                       defaultValue={editData[column]}/>
-                                            }
-                                            {
-                                                config.columsTypes[indexCol] === 'string' &&
-                                                <input type="text" className="form-control"
-                                                       onChange={(e) => {
-                                                           setEditData({...editData, [column]: e.target.value})
-                                                       }}
-                                                       defaultValue={editData[column]}/>
-                                            }
-                                            {
-                                                config.columsTypes[indexCol] === 'select' &&
-                                                <select className="form-select"
-                                                        defaultValue={editData[column] ? editData[column] : ''}
-                                                        onChange={(e) => {
-                                                            setEditData({...editData, [column]: e.target.value})
-                                                        }}>
-                                                    {
-                                                        config.selectOptions &&
-                                                        config.selectOptions[column].map((option, key) => (
-                                                            <option value={option.value}
-                                                                    key={'option-' + key}>
-                                                                {option.label}
-                                                            </option>
-                                                        ))
-                                                    }
-                                                    <option value={''}>-</option>
-                                                </select>
-                                            }
-                                        </div>
-                                    </td>
+                                    config.columsTypes[indexCol] === 'number' &&
+                                    <th key={'head-' + column} className="th-auto">{column}</th>
                                 }
                                 {
-                                    !isEdit[index] &&
-                                    <td key={'col-' + indexCol}>
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            {config.columsTypes[indexCol] !== 'select' ? row[column] :
-                                                (config.selectOptions![column].find((option) => findOption(option, row, column))?.label || row[column])
-                                            }
-                                        </div>
-                                    </td>
+                                    config.columsTypes[indexCol] === 'string' &&
+                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                }
+                                {
+                                    config.columsTypes[indexCol] === 'date' &&
+                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                }
+                                {
+                                    config.columsTypes[indexCol] === 'textaera' &&
+                                    <th key={'head-' + column} className="th-500">{column}</th>
+                                }
+                                {
+                                    config.columsTypes[indexCol] === 'url' &&
+                                    <th key={'head-' + column} className="th-500">{column}</th>
+                                }
+                                {
+                                    config.columsTypes[indexCol] === 'select' &&
+                                    <th key={'head-' + column} className="th-auto">{column}</th>
                                 }
                             </React.Fragment>
                         ))}
                         {
                             config.actions &&
-                            <td>
-                                <div className="d-flex justify-content-center align-items-center">
-                                    {!isEdit[index] && config.actions.map((action, actionkey) => (
-                                        <React.Fragment key={'rf-action-' + actionkey}>
-                                            {
-                                                action === 'Edit' &&
-                                                <button key={'action-' + actionkey}
-                                                        className="btn text-white mx-2 btn-info"
-                                                        onClick={() => handleEdit(index, true)}>
-                                                    <RiEdit2Line/>
-                                                </button>
-                                            }
-                                            {
-                                                action === 'Delete' &&
-                                                <button key={'action-' + actionkey}
-                                                        onClick={() => handleDelete(row)}
-                                                        className="btn text-white mx-2 btn-danger">
-                                                    <RiDeleteBin6Line/>
-                                                </button>
-                                            }
-                                            {
-                                                action === 'View' &&
-                                                <button key={'action-' + actionkey}
-                                                        className="btn text-white mx-2 btn-primary">
-                                                    <RiEyeLine/>
-                                                </button>
-                                            }
-                                        </React.Fragment>
-                                    ))}
-                                    {
-                                        isEdit[index] &&
-                                        <button className="btn text-white mx-2 btn-success"
-                                                onClick={() => handleEdit(index, false)}>
-                                            <RiSaveFill/>
-                                        </button>
-                                    }
-                                </div>
-                            </td>
+                            <th className="th-auto">Actions</th>
                         }
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {data.map((row, index) => (
+                        <tr key={'row-' + index}>
+                            {config.columnsKeys.map((column, indexCol) => (
+                                <React.Fragment key={'rf-col-' + indexCol}>
+                                    {
+                                        isEdit[index] &&
+                                        <td key={'col-' + indexCol}>
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                {
+                                                    config.columsTypes[indexCol] === 'number' &&
+                                                    <input type="number" className="form-control"
+                                                           onChange={(e) => {
+                                                               setEditData({...editData, [column]: e.target.value})
+                                                           }}
+                                                           defaultValue={editData[column]}/>
+                                                }
+                                                {
+                                                    (config.columsTypes[indexCol] === 'string' || config.columsTypes[indexCol] === 'url') &&
+                                                    <input type="text" className="form-control"
+                                                           onChange={(e) => {
+                                                               setEditData({...editData, [column]: e.target.value})
+                                                           }}
+                                                           defaultValue={editData[column]}/>
+                                                }
+                                                {
+                                                    config.columsTypes[indexCol] === 'textaera' &&
+                                                    <textarea className="form-control"
+                                                              onChange={(e) => {
+                                                                  setEditData({...editData, [column]: e.target.value})
+                                                              }}
+                                                              defaultValue={editData[column]}/>
+                                                }
+                                                {
+                                                    config.columsTypes[indexCol] === 'date' &&
+                                                    <input type="text" className="form-control"
+                                                           disabled
+                                                           defaultValue={editData[column]}/>
+                                                }
+                                                {
+                                                    config.columsTypes[indexCol] === 'select' &&
+                                                    <select className="form-select"
+                                                            defaultValue={editData[column] ? editData[column] : ''}
+                                                            onChange={(e) => {
+                                                                setEditData({...editData, [column]: e.target.value})
+                                                            }}>
+                                                        {
+                                                            config.selectOptions &&
+                                                            config.selectOptions[column].map((option, key) => (
+                                                                <option value={option.value}
+                                                                        key={'option-' + key}>
+                                                                    {option.label}
+                                                                </option>
+                                                            ))
+                                                        }
+                                                        <option value={''}>-</option>
+                                                    </select>
+                                                }
+                                            </div>
+                                        </td>
+                                    }
+                                    {
+                                        !isEdit[index] &&
+                                        <td key={'col-' + indexCol}>
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                {config.columsTypes[indexCol] === 'select' &&
+                                                    <span>{(config.selectOptions![column].find((option) => findOption(option, row, column))?.label ||
+                                                        row[column])}</span>
+                                                }
+                                                {config.columsTypes[indexCol] === 'date' &&
+                                                    <span>{new Date(row[column]).toLocaleDateString() + ' ' + new Date(row[column]).toLocaleTimeString()}</span>
+                                                }
+                                                {config.columsTypes[indexCol] !== 'select' && config.columsTypes[indexCol] !== 'date' &&
+                                                    <span>{row[column]}</span>
+                                                }
+                                            </div>
+                                        </td>
+                                    }
+                                </React.Fragment>
+                            ))}
+                            {
+                                config.actions &&
+                                <td>
+                                    <div className="d-flex justify-content-center align-items-center">
+                                        {!isEdit[index] && config.actions.map((action, actionkey) => (
+                                            <React.Fragment key={'rf-action-' + actionkey}>
+                                                {
+                                                    action === 'Edit' &&
+                                                    <button key={'action-' + actionkey}
+                                                            className="btn text-white mx-2 btn-info"
+                                                            onClick={() => handleEdit(index, true)}>
+                                                        <RiEdit2Line/>
+                                                    </button>
+                                                }
+                                                {
+                                                    action === 'Delete' &&
+                                                    <button key={'action-' + actionkey}
+                                                            onClick={() => handleDelete(row)}
+                                                            className="btn text-white mx-2 btn-danger">
+                                                        <RiDeleteBin6Line/>
+                                                    </button>
+                                                }
+                                                {
+                                                    action === 'View' &&
+                                                    <button key={'action-' + actionkey}
+                                                            onClick={() => setDataToShow(row)}
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target={'#modalDetails-' + name}
+                                                            className="btn text-white mx-2 btn-primary">
+                                                        <RiEyeLine/>
+                                                    </button>
+                                                }
+                                            </React.Fragment>
+                                        ))}
+                                        {
+                                            isEdit[index] &&
+                                            <button className="btn text-white mx-2 btn-success"
+                                                    onClick={() => handleEdit(index, false)}>
+                                                <RiSaveFill/>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* MODAL */}
+            <div className="modal fade" id={'modalDetails-' + name} tabIndex={-1}
+                 aria-labelledby={'modalDetailsLabel-' + name}
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id={'modalDetailsLabel-' + name}>Détail</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            {
+                                config.columnsKeys.map((column, index) => (
+                                    <div key={'modal-' + index}
+                                         className="d-flex flex-column align-items-center justify-content-center">
+                                        {config.columsTypes[index] === 'select' &&
+                                            <span>{(config.selectOptions![column].find((option) => findOption(option, dataToShow, column))?.label ||
+                                                dataToShow[column])}</span>
+                                        }
+                                        {config.columsTypes[index] === 'date' &&
+                                            <span>{new Date(dataToShow[column]).toLocaleDateString() + ' ' + new Date(dataToShow[column]).toLocaleTimeString()}</span>
+                                        }
+                                        {config.columsTypes[index] === 'url' &&
+                                            <img src={dataToShow[column]} alt={dataToShow[column]}/>
+                                        }
+                                        {config.columsTypes[index] !== 'select' && config.columsTypes[index] !== 'date' && config.columsTypes[index] !== 'url' &&
+                                            <span>{dataToShow[column]}</span>
+                                        }
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
