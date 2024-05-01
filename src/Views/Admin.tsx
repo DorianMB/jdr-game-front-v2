@@ -34,7 +34,11 @@ function Admin() {
     const [stats, setStats] = useState<StatModel[]>([]);
     const [lootTables, setLootTables] = useState<LootTableModel[]>([]);
     const [items, setItems] = useState<ItemModel[]>([]);
-    const [configTabs, setConfigTabs] = useState<{ title: string, content: JSX.Element }[]>([]);
+    const [configTabs, setConfigTabs] = useState<{
+        title: string,
+        refreshData: () => void,
+        content: JSX.Element
+    }[]>([]);
 
     useEffect(() => {
         adminGuard();
@@ -52,6 +56,7 @@ function Admin() {
             setConfigTabs([
                 {
                     title: 'Users',
+                    refreshData: refreshUsers,
                     content: <CustomTable name={'Users'} config={configTableUsers} data={users}
                                           postMethod={postUser} patchMethod={patchUser}
                                           deleteMethod={deleteUser}
@@ -59,6 +64,7 @@ function Admin() {
                 },
                 {
                     title: 'Characters',
+                    refreshData: refreshCaracters,
                     content: <CustomTable name={'Characters'} config={configTableCharacters(users)} data={characters}
                                           postMethod={postCharacter} patchMethod={patchCharacter}
                                           deleteMethod={deleteCharacter}
@@ -66,6 +72,7 @@ function Admin() {
                 },
                 {
                     title: 'Bags',
+                    refreshData: refreshBags,
                     content: <CustomTable name={'Bags'} config={configTableBags} data={bags}
                                           postMethod={postBag} patchMethod={patchBag}
                                           deleteMethod={deleteBag}
@@ -73,6 +80,7 @@ function Admin() {
                 },
                 {
                     title: 'Equipments',
+                    refreshData: refreshEquipments,
                     content: <CustomTable name={'Equipments'} config={configTableEquipments} data={equipments}
                                           postMethod={postEquipment} patchMethod={patchEquipment}
                                           deleteMethod={deleteEquipment}
@@ -80,6 +88,7 @@ function Admin() {
                 },
                 {
                     title: 'Stats',
+                    refreshData: refreshStats,
                     content: <CustomTable name={'Stats'} config={configTableStats} data={stats}
                                           postMethod={postStat} patchMethod={patchStat}
                                           deleteMethod={deleteStat}
@@ -87,6 +96,7 @@ function Admin() {
                 },
                 {
                     title: 'Loot Tables',
+                    refreshData: refreshLootTables,
                     content: <CustomTable name={'LootTables'} config={configTableLoot} data={lootTables}
                                           postMethod={postLootTable} patchMethod={patchLootTable}
                                           deleteMethod={deleteLootTable} generateMethod={generateItemFromLootTable}
@@ -94,6 +104,7 @@ function Admin() {
                 },
                 {
                     title: 'Items',
+                    refreshData: refreshItems,
                     content: <CustomTable name={'Items'} config={configTableItem} data={items}
                                           postMethod={postItem} patchMethod={patchItem}
                                           deleteMethod={deleteItem}
@@ -153,6 +164,7 @@ function Admin() {
                     configTabs && configTabs.map((item, index) => (
                         <li className="nav-item" role="presentation" key={'nav-item-' + index}>
                             <button className={`nav-link ${index === 0 ? 'active' : ''}`} id={`tab-${index}`}
+                                    onClick={item.refreshData}
                                     data-bs-toggle="tab" data-bs-target={`#tab-content-${index}`} type="button"
                                     role="tab" aria-controls={`tab-content-${index}`} aria-selected="true">
                                 {item.title}
