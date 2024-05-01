@@ -105,3 +105,114 @@ export const configTableStats = {
     actions: ['Edit', 'Delete', 'View'],
     canAdd: true
 };
+
+export const configTableLoot = {
+    columnsKeys: ['loot_table_id', 'type', 'picture', 'fight_picture', 'name', 'description', 'rarity', 'damage_min', 'damage_max', 'armor_min', 'armor_max', 'strength_min', 'strength_max', 'intelligence_min', 'intelligence_max', 'speed_min', 'speed_max', 'charisma_min', 'charisma_max', 'health_min', 'health_max', 'luck_min', 'luck_max', 'charm', 'charm_type', 'charm_value', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'select', 'url', 'url', 'string', 'string', 'select', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'select', 'select', 'number', 'date', 'date'],
+    isDisabled: ["loot_table_id", "created_at", "updated_at"],
+    selectOptions: {
+        type: [
+            {value: 'helmet', label: 'helmet'},
+            {value: 'chestplate', label: 'chestplate'},
+            {value: 'gloves', label: 'gloves'},
+            {value: 'boots', label: 'boots'},
+            {value: 'sword', label: 'sword'},
+            {value: 'shield', label: 'shield'},
+            {value: 'bow', label: 'bow'},
+            {value: 'arrow', label: 'arrow'},
+            {value: 'magic_wand', label: 'magic_wand'},
+            {value: 'magic_book', label: 'magic_book'},
+            {value: 'magic_item', label: 'magic_item'}
+        ],
+        rarity: [
+            {value: 'common', label: 'common'},
+            {value: 'uncommun', label: 'uncommun'},
+            {value: 'rare', label: 'rare'},
+            {value: 'epic', label: 'epic'},
+            {value: 'legendary', label: 'legendary'}
+        ],
+        charm: [{value: 0, label: 'false'}, {value: 1, label: 'true'}],
+        charm_type: [
+            {value: 'xp_boost', label: 'xp_boost'},
+            {value: 'gold_boost', label: 'gold_boost'},
+            {value: 'looting_boost', label: 'looting_boost'},
+            {value: 'first_attack_boost', label: 'first_attack_boost'}
+        ]
+    },
+    defaultData: {
+        loot_table_id: null,
+        type: 'helmet',
+        picture: '',
+        fight_picture: '',
+        name: '',
+        description: '',
+        rarity: 'common',
+        damage_min: 0,
+        damage_max: 0,
+        armor_min: 0,
+        armor_max: 0,
+        strength_min: 0,
+        strength_max: 0,
+        intelligence_min: 0,
+        intelligence_max: 0,
+        speed_min: 0,
+        speed_max: 0,
+        charisma_min: 0,
+        charisma_max: 0,
+        health_min: 0,
+        health_max: 0,
+        luck_min: 0,
+        luck_max: 0,
+        charm: 0,
+        charm_type: '',
+        charm_value: 0,
+        created_at: '',
+        updated_at: ''
+    },
+    actions: ['Edit', 'Delete', 'View'],
+    canAdd: true
+};
+
+export const configTableItem = {
+    columnsKeys: ['item_id', 'loot_id', 'bag_id', 'level', 'price', 'rarity', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck', 'charm', 'charm_type', 'charm_value', 'created_at', 'updated_at'],
+    columsTypes: ['number', 'number', 'number', 'number', 'number', 'select', 'number', 'number', 'number', 'number', 'number', 'number', 'select', 'select', 'number', 'date', 'date'],
+    isDisabled: ["item_id", "created_at", "updated_at"],
+    selectOptions: {
+        rarity: [
+            {value: 'common', label: 'common'},
+            {value: 'uncommun', label: 'uncommun'},
+            {value: 'rare', label: 'rare'},
+            {value: 'epic', label: 'epic'},
+            {value: 'legendary', label: 'legendary'}
+        ],
+        charm: [{value: 0, label: 'false'}, {value: 1, label: 'true'}],
+        charm_type: [
+            {value: 'xp_boost', label: 'xp_boost'},
+            {value: 'gold_boost', label: 'gold_boost'},
+            {value: 'looting_boost', label: 'looting_boost'},
+            {value: 'first_attack_boost', label: 'first_attack_boost'}
+        ]
+    },
+    defaultData: {
+        item_id: null,
+        loot_id: '',
+        bag_id: '',
+        level: 0,
+        price: 0,
+        rarity: 'common',
+        strength: 0,
+        intelligence: 0,
+        speed: 0,
+        charisma: 0,
+        health: 0,
+        luck: 0,
+        charm: 0,
+        charm_type: '',
+        charm_value: 0,
+        created_at: '',
+        updated_at: ''
+    },
+    actions: ['Edit', 'Delete', 'View'],
+    canAdd: true
+};
+

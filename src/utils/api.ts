@@ -7,3 +7,5 @@ export const CHARACTERS = BASE_URL + '/characters';
 export const BAGS = BASE_URL + '/bags';
 export const EQUIPMENTS = BASE_URL + '/equipments';
 export const STATS = BASE_URL + '/stats';
+export const LOOTTABLES = BASE_URL + '/loot-tables';
+export const ITEMS = BASE_URL + '/items';

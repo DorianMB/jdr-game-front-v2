@@ -303,7 +303,7 @@ function CustomTable({
                                         {config.columsTypes[index] === 'date' &&
                                             <span>{column} : {new Date(dataToShow[column]).toLocaleDateString() + ' ' + new Date(dataToShow[column]).toLocaleTimeString()}</span>
                                         }
-                                        {config.columsTypes[index] === 'url' &&
+                                        {config.columsTypes[index] === 'url' && dataToShow[column] &&
                                             <img className="img-fluid" src={dataToShow[column]}
                                                  alt={dataToShow[column]}/>
                                         }

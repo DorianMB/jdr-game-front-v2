@@ -7,6 +7,8 @@ import {
     configTableBags,
     configTableCharacters,
     configTableEquipments,
+    configTableItem,
+    configTableLoot,
     configTableStats,
     configTableUsers
 } from "../utils/config.tables.ts";
@@ -19,6 +21,10 @@ import {deleteEquipment, getEquipments, patchEquipment, postEquipment} from "../
 import {EquipmentModel} from "../models/equipment.model.ts";
 import {deleteStat, getStats, patchStat, postStat} from "../services/stats.service.ts";
 import {StatModel} from "../models/stat.model.ts";
+import {LootTableModel} from "../models/loot-table.model.ts";
+import {ItemModel} from "../models/item.model.ts";
+import {deleteLootTable, getLootTables, patchLootTable, postLootTable} from "../services/loot-tables.service.ts";
+import {deleteItem, getItems, patchItem, postItem} from "../services/items.service.ts";
 
 function Admin() {
     const [users, setUsers] = useState<UserModel[]>([]);
@@ -26,6 +32,8 @@ function Admin() {
     const [bags, setBags] = useState<BagModel[]>([]);
     const [equipments, setEquipments] = useState<EquipmentModel[]>([]);
     const [stats, setStats] = useState<StatModel[]>([]);
+    const [lootTables, setLootTables] = useState<LootTableModel[]>([]);
+    const [items, setItems] = useState<ItemModel[]>([]);
     const [configTabs, setConfigTabs] = useState<{ title: string, content: JSX.Element }[]>([]);
 
     useEffect(() => {
@@ -35,6 +43,8 @@ function Admin() {
         refreshBags();
         refreshEquipments();
         refreshStats();
+        refreshLootTables();
+        refreshItems();
     }, []);
 
     useEffect(() => {
@@ -75,9 +85,23 @@ function Admin() {
                                           deleteMethod={deleteStat}
                                           refreshData={refreshStats}/>
                 },
+                {
+                    title: 'Loot Tables',
+                    content: <CustomTable name={'LootTables'} config={configTableLoot} data={lootTables}
+                                          postMethod={postLootTable} patchMethod={patchLootTable}
+                                          deleteMethod={deleteLootTable}
+                                          refreshData={refreshLootTables}/>
+                },
+                {
+                    title: 'Items',
+                    content: <CustomTable name={'Items'} config={configTableItem} data={items}
+                                          postMethod={postItem} patchMethod={patchItem}
+                                          deleteMethod={deleteItem}
+                                          refreshData={refreshItems}/>
+                },
             ]);
         }
-    }, [users, characters]);
+    }, [users, characters, stats, bags, equipments]);
 
     const refreshUsers = () => {
         getUsers().then((data) => {
@@ -106,6 +130,18 @@ function Admin() {
     const refreshStats = () => {
         getStats().then((data) => {
             setStats(data)
+        });
+    }
+
+    const refreshLootTables = () => {
+        getLootTables().then((data) => {
+            setLootTables(data)
+        });
+    }
+
+    const refreshItems = () => {
+        getItems().then((data) => {
+            setItems(data)
         });
     }
 
