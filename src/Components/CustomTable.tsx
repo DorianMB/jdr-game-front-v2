@@ -23,7 +23,7 @@ function CustomTable({
                      }: CustomTableProps) {
     const [isEdit, setIsEdit] = useState<boolean[]>([]);
     const [editData, setEditData] = useState<Record<string, string | number>>({});
-    const [dataToShow, setDataToShow] = useState({});
+    const [dataToShow, setDataToShow] = useState<{ [key: string]: any }>({});
 
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
