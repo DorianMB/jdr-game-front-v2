@@ -52,7 +52,7 @@ function SignInView() {
                                onChange={(e) => setPassword(e.target.value)}></input>
                         <button className="btn btn-primary w-100 text-white mb-3" onClick={login}>Login</button>
                         <p className="mt-3 small-text text-center">Si vous n'avez pas de compte cliquez <a
-                            href="/src/Views/SignUpView">ici</a> pour en créer
+                            href="/signup">ici</a> pour en créer
                             un</p>
                     </div>
                 </div>

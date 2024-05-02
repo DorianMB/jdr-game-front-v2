@@ -8,7 +8,7 @@ function CharacterView() {
     return (
         <div>
             <h2>{id}</h2>
-            <p>{t('Welcome to React')}</p>
+            <p>{t('pages.character')}</p>
         </div>
     )
 }

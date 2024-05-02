@@ -118,6 +118,10 @@ export const fr = {
                 "detail": "Détail",
                 "close": "Fermer"
             }
+        },
+        "pages": {
+            "home": "Accueil",
+            "character": "Personnage",
         }
     }
 }

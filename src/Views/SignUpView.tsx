@@ -80,7 +80,7 @@ function SignUpView() {
                                 disabled={password !== confirmPassword}>S' inscrire
                         </button>
                         <p className="mt-3 small-text text-center">Si vous avez déjà un compte cliquez <a
-                            href="/src/Views/SignInView">ici</a> pour vous connecter</p>
+                            href="/signin">ici</a> pour vous connecter</p>
                     </div>
                 </div>
             </div>
