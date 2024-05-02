@@ -25,8 +25,9 @@ import {LootTableModel} from "../models/loot-table.model.ts";
 import {ItemModel} from "../models/item.model.ts";
 import {deleteLootTable, getLootTables, patchLootTable, postLootTable} from "../services/loot-tables.service.ts";
 import {deleteItem, generateItemFromLootTable, getItems, patchItem, postItem} from "../services/items.service.ts";
+import {useTranslation} from "react-i18next";
 
-function Admin() {
+function AdminView() {
     const [users, setUsers] = useState<UserModel[]>([]);
     const [characters, setCharacters] = useState<CharacterModel[]>([]);
     const [bags, setBags] = useState<BagModel[]>([]);
@@ -39,6 +40,8 @@ function Admin() {
         refreshData: () => void,
         content: JSX.Element
     }[]>([]);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         adminGuard();
@@ -55,57 +58,57 @@ function Admin() {
         if (users.length > 0 && characters) {
             setConfigTabs([
                 {
-                    title: 'Users',
+                    title: t('entities.list.user'),
                     refreshData: refreshUsers,
-                    content: <CustomTable name={'Users'} config={configTableUsers} data={users}
+                    content: <CustomTable name={'user'} config={configTableUsers} data={users}
                                           postMethod={postUser} patchMethod={patchUser}
                                           deleteMethod={deleteUser}
                                           refreshData={refreshUsers}/>
                 },
                 {
-                    title: 'Characters',
+                    title: t('entities.list.character'),
                     refreshData: refreshCaracters,
-                    content: <CustomTable name={'Characters'} config={configTableCharacters(users)} data={characters}
+                    content: <CustomTable name={'character'} config={configTableCharacters(users)} data={characters}
                                           postMethod={postCharacter} patchMethod={patchCharacter}
                                           deleteMethod={deleteCharacter}
                                           refreshData={refreshCaracters}/>
                 },
                 {
-                    title: 'Bags',
+                    title: t('entities.list.bag'),
                     refreshData: refreshBags,
-                    content: <CustomTable name={'Bags'} config={configTableBags} data={bags}
+                    content: <CustomTable name={'bag'} config={configTableBags} data={bags}
                                           postMethod={postBag} patchMethod={patchBag}
                                           deleteMethod={deleteBag}
                                           refreshData={refreshBags}/>
                 },
                 {
-                    title: 'Equipments',
+                    title: t('entities.list.equipment'),
                     refreshData: refreshEquipments,
-                    content: <CustomTable name={'Equipments'} config={configTableEquipments} data={equipments}
+                    content: <CustomTable name={'equipment'} config={configTableEquipments} data={equipments}
                                           postMethod={postEquipment} patchMethod={patchEquipment}
                                           deleteMethod={deleteEquipment}
                                           refreshData={refreshEquipments}/>
                 },
                 {
-                    title: 'Stats',
+                    title: t('entities.list.stat'),
                     refreshData: refreshStats,
-                    content: <CustomTable name={'Stats'} config={configTableStats} data={stats}
+                    content: <CustomTable name={'stat'} config={configTableStats} data={stats}
                                           postMethod={postStat} patchMethod={patchStat}
                                           deleteMethod={deleteStat}
                                           refreshData={refreshStats}/>
                 },
                 {
-                    title: 'Loot Tables',
+                    title: t('entities.list.lootTable'),
                     refreshData: refreshLootTables,
-                    content: <CustomTable name={'LootTables'} config={configTableLoot} data={lootTables}
+                    content: <CustomTable name={'lootTable'} config={configTableLoot} data={lootTables}
                                           postMethod={postLootTable} patchMethod={patchLootTable}
                                           deleteMethod={deleteLootTable} generateMethod={generateItemFromLootTable}
                                           refreshData={refreshLootTables}/>
                 },
                 {
-                    title: 'Items',
+                    title: t('entities.list.item'),
                     refreshData: refreshItems,
-                    content: <CustomTable name={'Items'} config={configTableItem} data={items}
+                    content: <CustomTable name={'item'} config={configTableItem} data={items}
                                           postMethod={postItem} patchMethod={patchItem}
                                           deleteMethod={deleteItem}
                                           refreshData={refreshItems}/>
@@ -188,4 +191,4 @@ function Admin() {
     );
 }
 
-export default Admin;
+export default AdminView;

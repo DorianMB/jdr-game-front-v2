@@ -1,10 +1,10 @@
 import {Route, Routes} from 'react-router-dom';
 import HomeView from './Views/HomeView';
-import './assets/styles/pages/App.scss'
-import SignIn from "./Views/SignIn.tsx";
-import SignUp from "./Views/SignUp.tsx";
-import Admin from "./Views/Admin.tsx";
+import SignInView from "./Views/SignInView.tsx";
+import SignUpView from "./Views/SignUpView.tsx";
+import AdminView from "./Views/AdminView.tsx";
 import Header from "./Components/Header.tsx";
+import CharacterView from "./Views/CharacterView.tsx";
 
 function App() {
     return (
@@ -12,9 +12,10 @@ function App() {
             <Header></Header>
             <Routes>
                 <Route path="/" element={<HomeView/>}/>
-                <Route path="/signin" element={<SignIn/>}/>
-                <Route path="/signup" element={<SignUp/>}/>
-                <Route path="/admin" element={<Admin/>}/>
+                <Route path="/signin" element={<SignInView/>}/>
+                <Route path="/signup" element={<SignUpView/>}/>
+                <Route path="/admin" element={<AdminView/>}/>
+                <Route path="/character/:id" element={<CharacterView/>}/>
             </Routes>
         </>
     )

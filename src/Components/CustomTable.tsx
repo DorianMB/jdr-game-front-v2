@@ -2,6 +2,7 @@ import {RiAddLine, RiDeleteBin6Line, RiEdit2Line, RiEyeLine, RiSaveFill} from "@
 import React, {useEffect, useState} from "react";
 import {ConfigTable} from "../utils/config.tables.ts";
 import {LootTableModel} from "../models/loot-table.model.ts";
+import {useTranslation} from "react-i18next";
 
 interface CustomTableProps {
     name: string;
@@ -28,21 +29,28 @@ function CustomTable({
     const [editData, setEditData] = useState<Record<string, string | number>>({});
     const [dataToShow, setDataToShow] = useState<{ [key: string]: any }>({});
 
+    const {t} = useTranslation();
+
     useEffect(() => {
         setIsEdit(new Array(data.length).fill(false));
         OrderData();
     }, []);
 
+    useEffect(() => {
+        setIsEdit(new Array(data.length).fill(false));
+        OrderData();
+    }, [data]);
+
     const OrderData = () => {
         return data.sort((a, b) => {
-            if (a.updated_at > b.updated_at) {
-                return -1;
-            }
-            if (a.updated_at < b.updated_at) {
+            if (new Date(a.updated_at).getTime() > new Date(b.updated_at).getTime()) {
                 return 1;
             }
+            if (new Date(a.updated_at).getTime() < new Date(b.updated_at).getTime()) {
+                return -1;
+            }
             return 0;
-        });
+        }).reverse();
     }
 
     const findOption = (option: {
@@ -79,7 +87,7 @@ function CustomTable({
     }
 
     const handleDelete = async (row: any) => {
-        if (confirm(`Supprimer cet élément ? (${name})`)) {
+        if (confirm(`${t('components.customTable.delete')} (${t('entities.list.' + name)})`)) {
             await deleteMethod(row);
             refreshData();
         }
@@ -87,7 +95,7 @@ function CustomTable({
 
     const handleGenerate = async (lootTable: LootTableModel) => {
         if (generateMethod && lootTable.loot_table_id) {
-            if (confirm(`Générer un élément ? (${lootTable.name})`)) {
+            if (confirm(`${t('components.customTable.generate')} (${t('entities.list.' + name)})`)) {
                 await generateMethod(lootTable.loot_table_id);
                 refreshData();
             }
@@ -99,14 +107,17 @@ function CustomTable({
         Object.keys(newData).forEach((key) => {
             newData[key] = '';
         });
+        newData.updated_at = new Date();
         newData.isNew = 1;
         data.push(newData);
+        OrderData();
         setIsEdit((prev) => {
             const copy = [...prev];
-            copy.push(true);
+            copy.push(false);
+            copy[0] = true;
             return copy;
         });
-        setEditData({isNew: 1});
+        setEditData(newData);
     }
 
     const launchCustomAction = (action: () => Promise<any>) => {
@@ -133,7 +144,7 @@ function CustomTable({
 
                     }
                     <button className="btn btn-success m-3" onClick={addElement}>
-                        <RiAddLine></RiAddLine> {name}
+                        <RiAddLine></RiAddLine> {t('entities.list.' + name)}
                     </button>
                 </div>
             }
@@ -146,33 +157,37 @@ function CustomTable({
                             <React.Fragment key={'rf-th-' + column}>
                                 {
                                     config.columsTypes[indexCol] === 'number' &&
-                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                    <th key={'head-' + column}
+                                        className="th-auto">{t(`entities.${name}.${column}`)}</th>
                                 }
                                 {
                                     config.columsTypes[indexCol] === 'string' &&
-                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                    <th key={'head-' + column}
+                                        className="th-auto">{t(`entities.${name}.${column}`)}</th>
                                 }
                                 {
                                     config.columsTypes[indexCol] === 'date' &&
-                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                    <th key={'head-' + column}
+                                        className="th-auto">{t(`entities.${name}.${column}`)}</th>
                                 }
                                 {
                                     config.columsTypes[indexCol] === 'textaera' &&
-                                    <th key={'head-' + column} className="th-500">{column}</th>
+                                    <th key={'head-' + column} className="th-500">{t(`entities.${name}.${column}`)}</th>
                                 }
                                 {
                                     config.columsTypes[indexCol] === 'url' &&
-                                    <th key={'head-' + column} className="th-500">{column}</th>
+                                    <th key={'head-' + column} className="th-500">{t(`entities.${name}.${column}`)}</th>
                                 }
                                 {
                                     config.columsTypes[indexCol] === 'select' &&
-                                    <th key={'head-' + column} className="th-auto">{column}</th>
+                                    <th key={'head-' + column}
+                                        className="th-auto">{t(`entities.${name}.${column}`)}</th>
                                 }
                             </React.Fragment>
                         ))}
                         {
                             config.actions &&
-                            <th className="th-auto">Actions</th>
+                            <th className="th-auto">{t('components.customTable.actions')}</th>
                         }
                     </tr>
                     </thead>
@@ -325,7 +340,8 @@ function CustomTable({
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id={'modalDetailsLabel-' + name}>Détail</h1>
+                            <h1 className="modal-title fs-5"
+                                id={'modalDetailsLabel-' + name}>{t('components.customTable.detail')}</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
@@ -353,7 +369,8 @@ function CustomTable({
                             }
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary"
+                                    data-bs-dismiss="modal">{t('components.customTable.close')}</button>
                         </div>
                     </div>
                 </div>

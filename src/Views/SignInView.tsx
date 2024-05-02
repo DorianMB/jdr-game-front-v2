@@ -1,24 +1,24 @@
 import {useState} from 'react'
 import axios from 'axios'
 import {defaullHeader} from "../utils/header.ts";
-import {SIGNUP} from "../utils/api.ts";
+import {SIGNIN} from "../utils/api.ts";
 import {useNavigate} from "react-router-dom";
 import {RiGamepadFill} from "@remixicon/react";
 
-function SignUp() {
-    const [name, setName] = useState('');
+function SignInView() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [card, setCard] = useState<HTMLElement | null>(null);
     const navigate = useNavigate();
 
-    const signup = () => {
-        axios.post(SIGNUP, {
-            name: name,
+    const login = () => {
+        axios.post(SIGNIN, {
             mail: email,
             password: password
-        }, defaullHeader).then(() => {
+        }, defaullHeader).then((response) => {
+            localStorage.setItem('token', response.data);
+            const evt = new CustomEvent("TokenUpdateEvent", {detail: "Token updated"});
+            window.dispatchEvent(evt);
             navigate('/');
         });
     }
@@ -42,6 +42,20 @@ function SignUp() {
     return (
         <>
             <div className="row h-100">
+                <div className="col-md-6 d-flex flex-column justify-content-center">
+                    <div className="w-50 mx-auto">
+                        <h1 className="text-center mb-2">Connexion</h1>
+                        <p className="text-center mb-4">Connectez vous avec votre compte</p>
+                        <input className="form-control mb-3" type="text" placeholder="mail" value={email}
+                               onChange={(e) => setEmail(e.target.value)}></input>
+                        <input className="form-control mb-3" type="password" placeholder="password" value={password}
+                               onChange={(e) => setPassword(e.target.value)}></input>
+                        <button className="btn btn-primary w-100 text-white mb-3" onClick={login}>Login</button>
+                        <p className="mt-3 small-text text-center">Si vous n'avez pas de compte cliquez <a
+                            href="/src/Views/SignUpView">ici</a> pour en créer
+                            un</p>
+                    </div>
+                </div>
                 <div className="col-md-6 d-flex justify-content-center align-items-center">
                     <div
                         id="card-parallax"
@@ -56,36 +70,9 @@ function SignUp() {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 d-flex flex-column justify-content-center">
-                    <div className="w-50 mx-auto">
-                        <h1 className="text-center mb-2">S'inscrire</h1>
-                        <p className="text-center mb-4">Inscrivez vous pour commencer a jouer !</p>
-                        <input className="form-control mb-3" type="text" placeholder="name" value={name}
-                               onChange={(e) => setName(e.target.value)}></input>
-
-                        <input className="form-control mb-3" type="text" placeholder="mail" value={email}
-                               onChange={(e) => setEmail(e.target.value)}></input>
-
-                        <input className="form-control mb-3" type="password" placeholder="password" value={password}
-                               onChange={(e) => setPassword(e.target.value)}></input>
-
-                        <input className="form-control" type="password" placeholder="confirm password"
-                               value={confirmPassword}
-                               onChange={(e) => setConfirmPassword(e.target.value)}></input>
-                        {
-                            password !== confirmPassword && confirmPassword !== '' &&
-                            <p className="text-danger">Les mots de passe ne correspondent pas</p>
-                        }
-                        <button className="btn btn-secondary w-100 text-white mb-3 mt-3" onClick={signup}
-                                disabled={password !== confirmPassword}>S' inscrire
-                        </button>
-                        <p className="mt-3 small-text text-center">Si vous avez déjà un compte cliquez <a
-                            href="/signin">ici</a> pour vous connecter</p>
-                    </div>
-                </div>
             </div>
         </>
     )
 }
 
-export default SignUp
+export default SignInView

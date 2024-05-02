@@ -1,5 +1,6 @@
 export interface CharacterModel {
     character_id: number,
+    name: string,
     picture: string,
     experience: number,
     money: number,
