@@ -121,7 +121,9 @@ export const fr = {
         },
         "pages": {
             "home": "Accueil",
-            "character": "Personnage",
+            "character": {
+                "title": "Détail du personnage",
+            }
         }
     }
 }

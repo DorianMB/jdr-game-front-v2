@@ -4,7 +4,8 @@ import {parseJwt} from "../utils/jwt.ts";
 import {UserModel} from "../models/user.model.ts";
 
 function Header() {
-    const [title] = useState('Jdr Game')
+    const [title] = useState('Loot Legends')
+    const [logoUrl] = useState(['/logo1.png', '/logo2.png', '/logo3.png', '/logo4.png'])
     const [isAuth, setAuth] = useState(false)
     const [user, setUser] = useState<UserModel>()
     const navigate = useNavigate();
@@ -41,7 +42,16 @@ function Header() {
     return (
         <nav className="navbar navbar-expand-lg bg-light">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">{title}</a>
+                {
+                    logoUrl &&
+                    <img
+                        src={logoUrl[1]}
+                        className="img-fluid logo-header"/>
+                }
+                {
+                    !logoUrl &&
+                    <a className="navbar-brand" href="/">{title}</a>
+                }
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
                         aria-label="Toggle navigation">

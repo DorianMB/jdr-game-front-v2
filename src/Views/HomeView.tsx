@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react'
 import {authGuard} from "../utils/auth.guard.ts";
 import {parseJwt} from "../utils/jwt.ts";
 import {CharacterModel} from "../models/character.model.ts";
-import {getCharacters} from "../services/characters.service.ts";
+import {getCharacterByUserId} from "../services/characters.service.ts";
 import {useNavigate} from "react-router-dom";
 
 function HomeView() {
-    const [username, setUsername] = useState('Hello World');
+    const [decodedToken, setDecodedToken] = useState<{ username: string, sub: number } | null>(null);
     const [characters, setCharacters] = useState<CharacterModel[]>([]);
     const navigate = useNavigate();
 
@@ -14,12 +14,16 @@ function HomeView() {
         authGuard();
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token!);
-        setUsername(decodedToken.username)
-        refreshCaracters();
+        setDecodedToken(decodedToken)
     }, [])
 
+    useEffect(() => {
+        refreshCaracters();
+    }, [decodedToken]);
+
     const refreshCaracters = () => {
-        getCharacters().then((data) => {
+        if (!decodedToken) return;
+        getCharacterByUserId(decodedToken.sub).then((data) => {
             setCharacters(data)
         });
     }
@@ -30,7 +34,7 @@ function HomeView() {
 
     return (
         <>
-            <h1 className="mt-4 text-center">Hello {username}</h1>
+            <h1 className="mt-4 text-center">Hello {decodedToken ? decodedToken.username : ''}</h1>
             <div className="d-flex flex-wrap justify-content-between mt-5">
                 {
                     characters &&
