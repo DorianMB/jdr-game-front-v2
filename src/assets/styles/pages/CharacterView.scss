@@ -3,6 +3,9 @@
   height: 75px;
   overflow: hidden;
   border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .character-picture {
@@ -10,4 +13,8 @@
   height: 300px;
   overflow: hidden;
   border: 1px solid lightgray;
+}
+
+.cell-sized {
+  width: 200px;
 }
