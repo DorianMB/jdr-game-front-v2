@@ -45,12 +45,12 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
         defaultData: {
             character_id: null,
             picture: '',
-            experience: 0,
-            money: 0,
-            user_id: 0,
-            equipment_id: 0,
-            stat_id: 0,
-            bag_id: 0,
+            experience: '',
+            money: '',
+            user_id: '',
+            equipment_id: '',
+            stat_id: '',
+            bag_id: '',
             created_at: '',
             updated_at: ''
         },

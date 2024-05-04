@@ -70,12 +70,10 @@ function CustomTable({
         } else {
             if (data[key].isNew) {
                 delete editData.isNew;
-                const res = await postMethod(editData);
-                data[key] = {...res};
+                await postMethod(editData);
                 refreshData();
             } else {
-                const res = await patchMethod(editData);
-                data[key] = {...res};
+                await patchMethod(editData);
                 refreshData();
             }
         }
