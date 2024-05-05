@@ -1,11 +1,17 @@
 import axios from "axios";
-import {BAGS} from "../utils/api.ts";
+import {BAGS, BAGS_ITEMS} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
 import {BagModel} from "../models/bag.model.ts";
 
 export const getBags = async () => {
     const token = localStorage.getItem('token');
     const response = await axios.get(BAGS, jwtHeader(token!));
+    return response.data;
+}
+
+export const getItemsByBagId = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(BAGS_ITEMS + '/' + id, jwtHeader(token!));
     return response.data;
 }
 

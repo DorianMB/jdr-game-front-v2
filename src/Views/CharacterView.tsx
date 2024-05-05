@@ -1,15 +1,18 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getCharacterById} from "../services/characters.service.ts";
 import {CharacterModelCascade} from "../models/character.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
 import {RiQuestionMark} from "@remixicon/react";
 import {STATS_TYPE_LIST} from "../utils/constants.ts";
+import {ItemModelCascade} from "../models/item.model.ts";
+import {getItemsByBagId} from "../services/bags.service.ts";
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
     const [stat, setStat] = useState<[string, any][]>([]);
+    const [bagItems, setBagItems] = useState<ItemModelCascade[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
 
     const {id} = useParams();
@@ -29,11 +32,11 @@ function CharacterView() {
 
     useEffect(() => {
         if (userId && id) {
-            refreshCaracter(+id);
+            refreshCharacterData(+id);
         }
     }, [userId]);
 
-    const refreshCaracter = (id: number) => {
+    const refreshCharacterData = (id: number) => {
         getCharacterById(id).then((data) => {
             if (data.user_id.user_id !== userId) {
                 navigate('/');
@@ -44,6 +47,10 @@ function CharacterView() {
                 return STATS_TYPE_LIST.includes(s[0].toString())
             });
             setStat(statList);
+            getItemsByBagId(data.bag_id.bag_id).then((items) => {
+                console.log('items', items);
+                setBagItems(items);
+            });
         });
     }
 
@@ -159,7 +166,13 @@ function CharacterView() {
                     character?.bag_id?.length && Array.from(Array(character.bag_id.length).keys()).map((index) => {
                         return (
                             <div key={index} className="item-card-space">
-                                <RiQuestionMark></RiQuestionMark>
+                                {
+                                    bagItems.length > 0 && bagItems[index] &&
+                                    <img className="img-fluid"
+                                         src={bagItems[index].loot_id!.picture}/>
+                                    ||
+                                    <RiQuestionMark></RiQuestionMark>
+                                }
                             </div>
                         )
                     })

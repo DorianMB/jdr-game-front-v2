@@ -12,6 +12,7 @@ export const CHARACTERS_USER = CHARACTERS + '/user';
 
 // bags
 export const BAGS = BASE_URL + '/bags';
+export const BAGS_ITEMS = BAGS + '/items';
 
 // equipments
 export const EQUIPMENTS = BASE_URL + '/equipments';
