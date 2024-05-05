@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {getCharacterById} from "../services/characters.service.ts";
 import {CharacterModelCascade} from "../models/character.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
@@ -8,6 +8,7 @@ import {RiQuestionMark} from "@remixicon/react";
 import {STATS_TYPE_LIST} from "../utils/constants.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
 import {getItemsByBagId} from "../services/bags.service.ts";
+import * as bootstrap from 'bootstrap';
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
@@ -33,6 +34,9 @@ function CharacterView() {
     useEffect(() => {
         if (userId && id) {
             refreshCharacterData(+id);
+            setTimeout(() => {
+                setupTooltip();
+            }, 200);
         }
     }, [userId]);
 
@@ -54,6 +58,38 @@ function CharacterView() {
         });
     }
 
+    const setupTooltip = () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    }
+
+    const tooltip = (item: ItemModelCascade): string => {
+        let result = '';
+        if (item) {
+            const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck', 'charm', 'charm_type', 'charm_value'];
+            const keysToShowInLoot = ['name', 'description'];
+
+            // Traiter 'name' et 'description' en premier
+            if (item.loot_id) {
+                Object.entries(item.loot_id).forEach(([key, value]) => {
+                    if (keysToShowInLoot.includes(key)) {
+                        result += `<div><b>${key} :</b> ${value !== null ? value : ''}</div>`;
+                    }
+                });
+            }
+
+            // Parcourir les autres propriétés
+            Object.entries(item).forEach(([key, value]) => {
+                if (key !== 'loot_id' && keysToShowInItem.includes(key)) {
+                    result += `<div><b>${key} :</b> ${value !== null ? value : ''}</div>`;
+                }
+            });
+        }
+        return `<div>${result}</div>`;
+    }
+
     return (
         <div>
             <h2 className="mt-4 text-center">{t('pages.character.title')} : {character ? character.name : ''}</h2>
@@ -67,7 +103,11 @@ function CharacterView() {
                         <div className="item-card-space">
                             {
                                 character?.equipment_id!.helmet_id &&
-                                <img className="img-fluid" src={character?.equipment_id!.helmet_id!.loot_id!.picture}/>
+                                <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.helmet_id)}
+                                     src={character?.equipment_id!.helmet_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
                             }
@@ -76,6 +116,9 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.chestplate_id &&
                                 <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.chestplate_id)}
                                      src={character?.equipment_id!.chestplate_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -84,7 +127,11 @@ function CharacterView() {
                         <div className="item-card-space">
                             {
                                 character?.equipment_id!.gloves_id &&
-                                <img className="img-fluid" src={character?.equipment_id!.gloves_id!.loot_id!.picture}/>
+                                <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.gloves_id)}
+                                     src={character?.equipment_id!.gloves_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
                             }
@@ -92,7 +139,11 @@ function CharacterView() {
                         <div className="item-card-space">
                             {
                                 character?.equipment_id!.boots_id &&
-                                <img className="img-fluid" src={character?.equipment_id!.boots_id!.loot_id!.picture}/>
+                                <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.boots_id)}
+                                     src={character?.equipment_id!.boots_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
                             }
@@ -108,6 +159,9 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.primary_weapon_id &&
                                 <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.primary_weapon_id)}
                                      src={character?.equipment_id!.primary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -117,6 +171,9 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.secondary_weapon_id &&
                                 <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.secondary_weapon_id)}
                                      src={character?.equipment_id!.secondary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -126,6 +183,9 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.primary_magic_item_id &&
                                 <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.primary_magic_item_id)}
                                      src={character?.equipment_id!.primary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -135,6 +195,9 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.secondary_magic_item_id &&
                                 <img className="img-fluid"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.secondary_magic_item_id)}
                                      src={character?.equipment_id!.secondary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -169,6 +232,9 @@ function CharacterView() {
                                 {
                                     bagItems.length > 0 && bagItems[index] &&
                                     <img className="img-fluid"
+                                         data-bs-toggle="tooltip"
+                                         data-bs-html="true"
+                                         data-bs-title={tooltip(bagItems[index])}
                                          src={bagItems[index].loot_id!.picture}/>
                                     ||
                                     <RiQuestionMark></RiQuestionMark>
@@ -178,6 +244,27 @@ function CharacterView() {
                     })
                 }
             </div>
+        </div>
+    )
+}
+
+export function ItemDetailToolTip({item}: { item: ItemModelCascade }) {
+    return (
+        <div>
+            <div>TEST</div>
+            <div>{item.loot_id.name}</div>
+            <div>{item.loot_id.description}</div>
+            <div>{item.rarity}</div>
+            <div>{item.price}</div>
+            <div>{item.level}</div>
+            <div>{item.strength}</div>
+            <div>{item.intelligence}</div>
+            <div>{item.speed}</div>
+            <div>{item.charisma}</div>
+            <div>{item.health}</div>
+            <div>{item.luck}</div>
+            <div>{item.charm}</div>
+            <div>{item.charm_type}</div>
         </div>
     )
 }

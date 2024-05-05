@@ -15,6 +15,7 @@ export interface ItemModel {
     luck: number;
     charm: boolean;
     charm_type: string;
+    charm_value: number;
     created_at: Date;
     updated_at: Date;
 }
@@ -34,6 +35,7 @@ export interface ItemModelCascade {
     luck: number;
     charm: boolean;
     charm_type: string;
+    charm_value: number;
     created_at: Date;
     updated_at: Date;
 }
