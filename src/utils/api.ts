@@ -25,3 +25,7 @@ export const LOOTTABLES = BASE_URL + '/loot-tables';
 
 // items
 export const ITEMS = BASE_URL + '/items';
+export const ITEMS_GENERATE = ITEMS + '/generate';
+export const ITEMS_EQUIP = ITEMS + '/equip';
+export const ITEMS_PUTINBAG = ITEMS + '/putInBag';
+export const ITEMS_SELL = ITEMS + '/sell';

@@ -118,11 +118,16 @@ export const fr = {
                 "generate": "Générer un élément ?",
                 "actions": "Actions",
                 "detail": "Détail",
-                "close": "Fermer"
+                "close": "Fermer",
+                "save": "Sauvegarder"
             }
         },
         "pages": {
-            "home": "Accueil",
+            "home": {
+                "title": "Accueil",
+                "character": "personnage",
+                "create": "Créer un personnage"
+            },
             "character": {
                 "title": "Détail du personnage",
                 "context-menu": {

@@ -44,9 +44,11 @@ function Header() {
             <div className="container-fluid">
                 {
                     logoUrl &&
-                    <img
-                        src={logoUrl[1]}
-                        className="img-fluid logo-header"/>
+                    <a href="/">
+                        <img
+                            src={logoUrl[1]}
+                            className="img-fluid logo-header"/>
+                    </a>
                 }
                 {
                     !logoUrl &&

@@ -313,6 +313,7 @@ function CharacterView() {
                 }
             </div>
 
+            {/*MODAL*/}
             <div className="modal modal-detail fade" id="modalDetails-item" tabIndex={-1}
                  aria-labelledby="modalDetailsLabel-item"
                  aria-hidden="true">
@@ -362,7 +363,7 @@ function CharacterView() {
                             }
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary"
+                            <button type="button" className="btn btn-secondary text-white"
                                     data-bs-dismiss="modal">{t('components.customTable.close')}</button>
                         </div>
                     </div>

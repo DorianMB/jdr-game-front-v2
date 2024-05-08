@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ITEMS} from "../utils/api.ts";
+import {ITEMS, ITEMS_EQUIP, ITEMS_GENERATE, ITEMS_PUTINBAG, ITEMS_SELL} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
 import {ItemModel, ItemModelCascade} from "../models/item.model.ts";
 
@@ -34,19 +34,19 @@ export const deleteItem = async (item: ItemModel): Promise<void> => {
 
 export const generateItemFromLootTable = async (lootTableId: number): Promise<ItemModel> => {
     const token = localStorage.getItem('token');
-    const response = await axios.get(ITEMS + '/generate/' + lootTableId, jwtHeader(token!));
+    const response = await axios.get(ITEMS_GENERATE + '/' + lootTableId, jwtHeader(token!));
     return response.data;
 }
 
 export const equipItem = async (info: { item_id: number, bag_id: number, equipment_id: number }): Promise<boolean> => {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(ITEMS + '/equip', info, jwtHeader(token!));
+    const response = await axios.patch(ITEMS_EQUIP, info, jwtHeader(token!));
     return response.data;
 }
 
 export const putInBag = async (info: { item_id: number, bag_id: number, equipment_id: number }): Promise<boolean> => {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(ITEMS + '/putInBag', info, jwtHeader(token!));
+    const response = await axios.patch(ITEMS_PUTINBAG, info, jwtHeader(token!));
     return response.data;
 }
 
@@ -57,6 +57,6 @@ export const sellItem = async (info: {
     character_id: number
 }): Promise<boolean> => {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(ITEMS + '/sell', info, jwtHeader(token!));
+    const response = await axios.patch(ITEMS_SELL, info, jwtHeader(token!));
     return response.data;
 }

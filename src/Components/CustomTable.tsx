@@ -367,7 +367,7 @@ function CustomTable({
                             }
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary"
+                            <button type="button" className="btn btn-secondary text-white"
                                     data-bs-dismiss="modal">{t('components.customTable.close')}</button>
                         </div>
                     </div>
