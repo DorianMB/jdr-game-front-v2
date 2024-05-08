@@ -1,5 +1,5 @@
 import axios from "axios";
-import {CHARACTERS, CHARACTERS_USER} from "../utils/api.ts";
+import {CHARACTERS, CHARACTERS_FIGHT, CHARACTERS_USER} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
 import {CharacterModel} from "../models/character.model.ts";
 
@@ -36,4 +36,10 @@ export const patchCharacter = async (data: CharacterModel) => {
 export const deleteCharacter = async (data: CharacterModel): Promise<void> => {
     const token = localStorage.getItem('token');
     await axios.delete(CHARACTERS + '/' + data.character_id, jwtHeader(token!));
+}
+
+export const simulateFight = async (id: number) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(CHARACTERS_FIGHT + '/' + id, jwtHeader(token!));
+    return response.data;
 }

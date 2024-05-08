@@ -33,6 +33,10 @@ function Header() {
         }
     }, []);
 
+    const active = (path: string) => {
+        return window.location.pathname === path ? 'active' : '';
+    }
+
     const logout = () => {
         localStorage.removeItem('token');
         setAuth(false);
@@ -62,25 +66,30 @@ function Header() {
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/">Home</a>
+                            <a className={"nav-link " + active('/')} aria-current="page" href="/">Home</a>
                         </li>
                         {(user && user.is_admin === 1) && (
                             <li className="nav-item">
-                                <a className="nav-link" href="/admin">Admin</a>
+                                <a className={"nav-link " + active('/admin')} href="/admin">Admin</a>
                             </li>
                         )
                         }
                         {isAuth ? (
-                            <li className="nav-item">
-                                <a className="nav-link" href="/" onClick={logout}>Logout</a>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <a className={"nav-link " + active('/fight')} href="/fight">Combat</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className={"nav-link " + active('/')} href="/" onClick={logout}>Logout</a>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/signin">Sign In</a>
+                                    <a className={"nav-link " + active('/signin')} href="/signin">Sign In</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/signup">Sign Up</a>
+                                    <a className={"nav-link " + active('/signup')} href="/signup">Sign Up</a>
                                 </li>
                             </>
                         )}

@@ -118,8 +118,11 @@ export const fr = {
                 "generate": "Générer un élément ?",
                 "actions": "Actions",
                 "detail": "Détail",
+            },
+            "modal": {
                 "close": "Fermer",
-                "save": "Sauvegarder"
+                "save": "Sauvegarder",
+                "launch": "Lancer"
             }
         },
         "pages": {
@@ -136,7 +139,14 @@ export const fr = {
                     "equip": "Equiper",
                     "sell": "Vendre"
                 }
-            }
+            },
+            "fight": {
+                "title": "Combat",
+                "launch": "Lancer un combat",
+                "modal-title": "Choisir un personnage",
+                "victory": "Victoire",
+                "defeat": "Défaite"
+            },
         }
     }
 }

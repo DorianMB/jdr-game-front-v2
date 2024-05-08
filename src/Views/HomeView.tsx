@@ -102,9 +102,9 @@ function HomeView() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary text-white"
-                                    data-bs-dismiss="modal">{t('components.customTable.close')}</button>
+                                    data-bs-dismiss="modal">{t('components.modal.close')}</button>
                             <button type="button" className="btn btn-primary text-white" onClick={handleSave}
-                                    data-bs-dismiss="modal">{t('components.customTable.save')}</button>
+                                    data-bs-dismiss="modal">{t('components.modal.save')}</button>
                         </div>
                     </div>
                 </div>

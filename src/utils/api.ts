@@ -9,6 +9,7 @@ export const USERS = BASE_URL + '/users';
 // characters
 export const CHARACTERS = BASE_URL + '/characters';
 export const CHARACTERS_USER = CHARACTERS + '/user';
+export const CHARACTERS_FIGHT = CHARACTERS + '/fight';
 
 // bags
 export const BAGS = BASE_URL + '/bags';
