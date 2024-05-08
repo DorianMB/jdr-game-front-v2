@@ -36,8 +36,8 @@ export const configTableUsers = {
 export const configTableCharacters = (users: UserModel[]): ConfigTable => {
     const optionUser: SelectOption[] = users.map((user: UserModel) => ({value: user.user_id, label: user.name}));
     return {
-        columnsKeys: ['character_id', 'name', 'picture', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id', 'created_at', 'updated_at'],
-        columsTypes: ['number', 'string', 'url', 'number', 'number', 'select', 'number', 'number', 'number', 'date', 'date'],
+        columnsKeys: ['character_id', 'name', 'picture', 'level', 'experience', 'money', 'user_id', 'equipment_id', 'stat_id', 'bag_id', 'created_at', 'updated_at'],
+        columsTypes: ['number', 'string', 'url', 'number', 'number', 'number', 'select', 'number', 'number', 'number', 'date', 'date'],
         selectOptions: {
             user_id: optionUser
         },
@@ -45,6 +45,7 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
         defaultData: {
             character_id: null,
             picture: '',
+            level: '',
             experience: '',
             money: '',
             user_id: '',

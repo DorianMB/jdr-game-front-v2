@@ -18,3 +18,25 @@
 .cell-sized {
   width: 200px;
 }
+
+.context-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $primary;
+  color: white;
+  z-index: 3;
+  border-radius: 4px;
+
+  .menu-item {
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-content: center;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+      cursor: pointer;
+    }
+  }
+}

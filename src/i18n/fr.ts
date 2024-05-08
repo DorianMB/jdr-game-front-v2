@@ -22,6 +22,7 @@ export const fr = {
                 "character_id": "ID du personnage",
                 "name": "Nom",
                 "picture": "Image",
+                "level": "Niveau",
                 "experience": "Expérience",
                 "money": "Argent",
                 "user_id": "ID d'utilisateur",
@@ -106,6 +107,7 @@ export const fr = {
                 "luck": "Chance",
                 "charm": "Charme",
                 "charm_type": "Type de charme",
+                "charm_value": "Valeur de charme",
                 "created_at": "Créé à",
                 "updated_at": "Mis à jour à"
             }
@@ -123,6 +125,12 @@ export const fr = {
             "home": "Accueil",
             "character": {
                 "title": "Détail du personnage",
+                "context-menu": {
+                    "detail": "Detail",
+                    "bag": "Mettre dans le sac",
+                    "equip": "Equiper",
+                    "sell": "Vendre"
+                }
             }
         }
     }
