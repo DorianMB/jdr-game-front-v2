@@ -10,11 +10,43 @@ function FightView() {
     const [characters, setCharacters] = useState<CharacterModel[]>([] as CharacterModel[]);
     const [characterId, setCharacterId] = useState<number>(null);
 
+    const [maxCharaHealth, setMaxCharaHealth] = useState<number>(null);
+    const [charaHealth, setCharaHealth] = useState<number>(0);
+    const [charaHealthPourcent, setCharaHealthPourcent] = useState<number>(0);
+    const [maxEnemyHealth, setMaxEnemyHealth] = useState<number>(null);
+    const [enemyHealth, setEnemyHealth] = useState<number>(0);
+    const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<number>(0);
+
     const {t} = useTranslation();
 
     useEffect(() => {
         refreshCharacters();
     }, []);
+
+    useEffect(() => {
+        if (characterId === null) return;
+        setCharacterHealth(characterId);
+    }, [characterId]);
+
+    useEffect(() => {
+        if (maxEnemyHealth !== null) {
+            setEnemyHealthPourcent(getPourcentHealth('enemy', fight.enemy.stat.health));
+        }
+    }, [maxEnemyHealth]);
+
+    useEffect(() => {
+        if (maxCharaHealth !== null) {
+            setCharaHealthPourcent(getPourcentHealth('character', characters[findIndex(characterId)].stat_id.health));
+        }
+    }, [maxCharaHealth]);
+
+    useEffect(() => {
+        if (maxEnemyHealth !== null && maxCharaHealth !== null) {
+            setTimeout(() => {
+                simulateFightAnimation();
+            }, 2000);
+        }
+    }, [maxEnemyHealth, maxCharaHealth]);
 
     const refreshCharacters = () => {
         const token = localStorage.getItem('token');
@@ -25,10 +57,62 @@ function FightView() {
         });
     }
 
+    const setCharacterHealth = (id) => {
+        setCharaHealth(characters[findIndex(id)].stat_id.health);
+        setMaxCharaHealth(characters[findIndex(id)].stat_id.health);
+    }
+
     const handleLaunch = (id: number) => {
         simulateFight(id).then((response) => {
             setFight(response);
+            setEnemyHealth(response.enemy.stat.health);
+            setMaxEnemyHealth(response.enemy.stat.health);
+            setCharacterHealth(characterId);
         });
+    }
+
+    const findIndex = (id) => {
+        return characters.findIndex(chara => chara.character_id === id);
+    }
+
+    const getCharacterPicture = () => {
+        const index = findIndex(characterId);
+        if (index === -1) return '';
+        return characters[index].picture;
+    }
+
+    const getPourcentHealth = (type: string, health) => {
+        console.log(type, health, maxCharaHealth, maxEnemyHealth);
+        if (type === 'character') {
+            const value = ((health / maxCharaHealth) * 100);
+            return value < 0 || value === 'Infinity' ? 0 : value + '%';
+        } else {
+            const value = ((health / maxEnemyHealth) * 100);
+            return value < 0 || value === 'Infinity' ? 0 : value + '%';
+        }
+    }
+
+    const simulateFightAnimation = () => {
+        if (fight && fight.rounds && fight.rounds.length === 0) return;
+        const rounds = fight.rounds;
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index === rounds.length) {
+                setMaxEnemyHealth(null);
+                setMaxCharaHealth(null);
+                clearInterval(interval);
+                return;
+            }
+            const round = rounds[index];
+            if (round.attacker === 'character') {
+                setEnemyHealth(round.enemyHealth);
+                setEnemyHealthPourcent(getPourcentHealth('enemy', round.enemyHealth));
+            } else {
+                setCharaHealth(round.characterHealth);
+                setCharaHealthPourcent(getPourcentHealth('character', round.characterHealth));
+            }
+            index++;
+        }, 1000);
     }
 
     return (
@@ -43,20 +127,34 @@ function FightView() {
                 </button>
             </div>
 
+            <button className="btn btn-primary text-white" onClick={simulateFightAnimation}>TEST</button>
+
             {/*FIGHT*/}
             {
                 Object.keys(fight).length > 0 &&
-                <div className="d-flex justify-content-center align-items-center mt-4">
-                    {
-                        fight.isVictory ?
-                            <div className="alert alert-success" role="alert">
-                                {t('pages.fight.victory')}
+                <div className="d-flex justify-content-around align-items-center mt-5">
+                    <div className="w-25">
+                        <div className="overflow-hidden w-100">
+                            <img src={getCharacterPicture()} className="img-fluid" alt="chara-picture"/>
+                        </div>
+                        <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                             aria-valuemin="0" aria-valuemax="100">
+                            <div className="progress-bar bg-success"
+                                 style={{width: charaHealthPourcent}}>{charaHealth}
                             </div>
-                            :
-                            <div className="alert alert-danger" role="alert">
-                                {t('pages.fight.defeat')}
+                        </div>
+                    </div>
+                    <div className="w-25">
+                        <div className="overflow-hidden w-100">
+                            <img src={fight?.enemy?.picture} className="img-fluid" alt="enemy-picture"/>
+                        </div>
+                        <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                             aria-valuemin="0" aria-valuemax="100">
+                            <div className="progress-bar bg-success"
+                                 style={{width: enemyHealthPourcent}}>{enemyHealth}
                             </div>
-                    }
+                        </div>
+                    </div>
                 </div>
             }
 

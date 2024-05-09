@@ -167,6 +167,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.helmet_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.helmet_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -180,6 +181,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.chestplate_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.chestplate_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -193,6 +195,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.gloves_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.gloves_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -206,6 +209,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.boots_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.boots_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -226,6 +230,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.primary_weapon_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.primary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -239,6 +244,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.secondary_weapon_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.secondary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -252,6 +258,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.primary_magic_item_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.primary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -265,6 +272,7 @@ function CharacterView() {
                             {
                                 character?.equipment_id!.secondary_magic_item_id &&
                                 <img className="img-fluid"
+                                     alt="equipment-picture"
                                      src={character?.equipment_id!.secondary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -303,6 +311,7 @@ function CharacterView() {
                                 {
                                     bagItems.length > 0 && bagItems[index] &&
                                     <img className="img-fluid"
+                                         alt="equipment-picture"
                                          src={bagItems[index].loot_id!.picture}/>
                                     ||
                                     <RiQuestionMark></RiQuestionMark>
