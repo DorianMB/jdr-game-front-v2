@@ -159,11 +159,13 @@ function CharacterView() {
                 <div className="d-flex m-3">
                     {/*container helmet / chestplate / gloves / boot*/}
                     <div className="d-flex flex-column">
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.helmet_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.helmet_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.helmet_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.helmet_id &&
                                 <img className="img-fluid"
@@ -173,11 +175,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.chestplate_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.chestplate_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.chestplate_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.chestplate_id &&
                                 <img className="img-fluid"
@@ -187,11 +191,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.gloves_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.gloves_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.gloves_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.gloves_id &&
                                 <img className="img-fluid"
@@ -201,11 +207,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.boots_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.boots_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.boots_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.boots_id &&
                                 <img className="img-fluid"
@@ -222,11 +230,13 @@ function CharacterView() {
                     </div>
                     {/*container weapons / magic items*/}
                     <div className="d-flex flex-column">
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.primary_weapon_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.primary_weapon_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.primary_weapon_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.primary_weapon_id &&
                                 <img className="img-fluid"
@@ -236,11 +246,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.secondary_weapon_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.secondary_weapon_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.secondary_weapon_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.secondary_weapon_id &&
                                 <img className="img-fluid"
@@ -250,11 +262,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.primary_magic_item_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.primary_magic_item_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.primary_magic_item_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.primary_magic_item_id &&
                                 <img className="img-fluid"
@@ -264,11 +278,13 @@ function CharacterView() {
                                 <RiQuestionMark></RiQuestionMark>
                             }
                         </div>
-                        <div className="item-card-space" onContextMenu={($event) => {
-                            handleContextMenu($event);
-                            setContext('equipment');
-                            setItemId(character?.equipment_id!.secondary_magic_item_id.item_id)
-                        }}>
+                        <div
+                            className={'item-card-space ' + `bc-${character?.equipment_id!.secondary_magic_item_id?.rarity.toLowerCase()}`}
+                            onContextMenu={($event) => {
+                                handleContextMenu($event);
+                                setContext('equipment');
+                                setItemId(character?.equipment_id!.secondary_magic_item_id.item_id)
+                            }}>
                             {
                                 character?.equipment_id!.secondary_magic_item_id &&
                                 <img className="img-fluid"
@@ -303,11 +319,12 @@ function CharacterView() {
                 {
                     character?.bag_id?.length && Array.from(Array(character.bag_id.length).keys()).map((index) => {
                         return (
-                            <div key={index} className="item-card-space" onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('bag');
-                                setItemId(bagItems[index].item_id)
-                            }}>
+                            <div key={index} className={'item-card-space ' + `bc-${bagItems[index]?.rarity.toLowerCase()}`}
+                                 onContextMenu={($event) => {
+                                     handleContextMenu($event);
+                                     setContext('bag');
+                                     setItemId(bagItems[index].item_id)
+                                 }}>
                                 {
                                     bagItems.length > 0 && bagItems[index] &&
                                     <img className="img-fluid"

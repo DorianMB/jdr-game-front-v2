@@ -127,8 +127,6 @@ function FightView() {
                 </button>
             </div>
 
-            <button className="btn btn-primary text-white" onClick={simulateFightAnimation}>TEST</button>
-
             {/*FIGHT*/}
             {
                 Object.keys(fight).length > 0 &&
