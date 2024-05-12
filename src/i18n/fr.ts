@@ -24,6 +24,7 @@ export const fr = {
                 "picture": "Image",
                 "level": "Niveau",
                 "experience": "Expérience",
+                "experience_points": "Points d'expérience",
                 "money": "Argent",
                 "user_id": "ID d'utilisateur",
                 "equipment_id": "ID d'équipement",

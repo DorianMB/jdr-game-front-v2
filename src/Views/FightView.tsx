@@ -4,6 +4,7 @@ import {getCharacterByUserId, simulateFight} from "../services/characters.servic
 import {useEffect, useState} from "react";
 import {FightModel} from "../models/fight.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
+import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
 
 function FightView() {
     const [fight, setFight] = useState<FightModel>({} as FightModel);
@@ -12,10 +13,10 @@ function FightView() {
 
     const [maxCharaHealth, setMaxCharaHealth] = useState<number>(null);
     const [charaHealth, setCharaHealth] = useState<number>(0);
-    const [charaHealthPourcent, setCharaHealthPourcent] = useState<number>(0);
+    const [charaHealthPourcent, setCharaHealthPourcent] = useState<string>('0%');
     const [maxEnemyHealth, setMaxEnemyHealth] = useState<number>(null);
     const [enemyHealth, setEnemyHealth] = useState<number>(0);
-    const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<number>(0);
+    const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<string>('0%');
 
     const {t} = useTranslation();
 
@@ -52,14 +53,20 @@ function FightView() {
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token!);
         getCharacterByUserId(decodedToken.sub).then((response) => {
-            setCharacterId(response[0].character_id);
+            setCharacterId('');
             setCharacters(response);
         });
     }
 
     const setCharacterHealth = (id) => {
-        setCharaHealth(characters[findIndex(id)].stat_id.health);
-        setMaxCharaHealth(characters[findIndex(id)].stat_id.health);
+        const chara = characters[findIndex(id)];
+        if (!chara) return;
+        getCumulativeStatFromEquipment(chara.equipment_id, 'health').then((response) => {
+            const cumulative = response;
+            setCharaHealth(chara.stat_id.health + cumulative);
+            setMaxCharaHealth(chara.stat_id.health + cumulative);
+            setCharaHealthPourcent('100%');
+        });
     }
 
     const handleLaunch = (id: number) => {
@@ -101,6 +108,7 @@ function FightView() {
                 setMaxEnemyHealth(null);
                 setMaxCharaHealth(null);
                 clearInterval(interval);
+                setFight({} as FightModel);
                 return;
             }
             const round = rounds[index];
@@ -121,6 +129,7 @@ function FightView() {
             <div className="d-flex justify-content-center align-items-center mt-4">
                 <button className="btn btn-primary text-white"
                         disabled={characters.length === 0}
+                        onClick={refreshCharacters}
                         data-bs-toggle="modal"
                         data-bs-target="#modalChooseCharacter">
                     <RiSwordLine></RiSwordLine> {t('pages.fight.launch')} <RiSwordLine></RiSwordLine>
@@ -176,6 +185,7 @@ function FightView() {
                                         onChange={($event) => {
                                             setCharacterId(parseInt($event.target.value));
                                         }}>
+                                    <option value=''>-</option>
                                     {
                                         characters.map((character) => {
                                             return <option value={character.character_id}

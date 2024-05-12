@@ -9,6 +9,12 @@ export const getEquipments = async () => {
     return response.data;
 }
 
+export const getEquipmentById = async (id: number): Promise<EquipmentModel> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(EQUIPMENTS + '/' + id, jwtHeader(token!));
+    return response.data;
+}
+
 export const postEquipment = async (equipment: EquipmentModel): Promise<EquipmentModel> => {
     const token = localStorage.getItem('token');
     const response = await axios.post(EQUIPMENTS, equipment, jwtHeader(token!));

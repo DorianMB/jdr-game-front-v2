@@ -150,6 +150,7 @@ function CharacterView() {
             <div className="d-flex justify-content-around mt-4">
                 <span>{t('entities.character.level')} : {character?.level}</span>
                 <span>{t('entities.character.experience')} : {character?.experience}</span>
+                <span>{t('entities.character.experience_points')} : {character?.experience_points}</span>
                 <span>{t('entities.character.money')} : {character?.money}</span>
             </div>
 
