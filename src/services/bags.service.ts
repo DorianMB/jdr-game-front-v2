@@ -32,7 +32,7 @@ export const deleteBag = async (bag: BagModel): Promise<void> => {
     await axios.delete(BAGS + '/' + bag.bag_id, jwtHeader(token!));
 }
 
-export const isBagFull = async (id: string): Promise<boolean> => {
+export const isBagFull = async (id: number): Promise<boolean> => {
     const token = localStorage.getItem('token');
     const response = await axios.get(ISBAGFULL + '/' + id, jwtHeader(token!));
     return response.data;

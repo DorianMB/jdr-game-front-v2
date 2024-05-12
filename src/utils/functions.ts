@@ -1,11 +1,11 @@
 import {getEquipmentById} from "../services/equipments.service.ts";
+import {EquipmentModelCascade} from "../models/equipment.model.ts";
 
 export const getCumulativeStatFromEquipment = async (
-    equipment: Equipment,
+    equipment: EquipmentModelCascade,
     stat: string,
 ): Promise<number> => {
     const newEquip = await getEquipmentById(equipment.equipment_id);
-    console.log('ici', newEquip, stat);
     let cumulative = 0;
     if (newEquip.helmet_id && newEquip.helmet_id[stat]) {
         cumulative += newEquip.helmet_id[stat];

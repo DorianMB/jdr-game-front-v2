@@ -1,15 +1,23 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import React, {useEffect, useState} from "react";
-import {getCharacterById} from "../services/characters.service.ts";
-import {CharacterModelCascade} from "../models/character.model.ts";
+import {getCharacterById, patchCharacter} from "../services/characters.service.ts";
+import {CharacterModel, CharacterModelCascade} from "../models/character.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
-import {RiBriefcase5Line, RiEyeLine, RiMoneyDollarCircleLine, RiQuestionMark, RiShirtFill} from "@remixicon/react";
+import {
+    RiAddLine,
+    RiBriefcase5Line,
+    RiEyeLine,
+    RiMoneyDollarCircleLine,
+    RiQuestionMark,
+    RiShirtFill
+} from "@remixicon/react";
 import {STATS_TYPE_LIST} from "../utils/constants.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
 import {getItemsByBagId} from "../services/bags.service.ts";
 import {equipItem, getItemById, putInBag, sellItem} from "../services/items.service.ts";
 import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
+import {patchStat} from "../services/stats.service.ts";
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
@@ -128,6 +136,20 @@ function CharacterView() {
                 newCumulativeStat[stat] = await getCumulativeStatFromEquipment(character.equipment_id, stat);
             }
             setCumulativeStat(newCumulativeStat);
+        }
+    }
+
+    const handleUpdateStat = (stat: string) => () => {
+        if (character) {
+            const newStat = {...character.stat_id};
+            newStat[stat] += 1;
+            character.experience_points -= 1;
+            const newChara = {...character} as unknown as CharacterModel;
+            patchCharacter(newChara).then(() => {
+                patchStat(newStat).then(() => {
+                    refreshCharacterData(+id!)
+                });
+            });
         }
     }
 
@@ -323,7 +345,17 @@ function CharacterView() {
                                 return (
                                     <tr key={index}>
                                         <td className="cell-sized text-center">{t('entities.stat.' + value[0])}</td>
-                                        <td className="cell-sized text-center">{value[1]} ({cumulativeStat[value[0]]})</td>
+                                        <td className="cell-sized text-center">
+                                            <span>{value[1]} ({cumulativeStat[value[0]]})</span>
+                                            {
+                                                character.experience_points > 0 &&
+                                                <button type="button"
+                                                        onClick={handleUpdateStat(value[0])}
+                                                        className="btn btn-primary btn-add">
+                                                    <RiAddLine></RiAddLine>
+                                                </button>
+                                            }
+                                        </td>
                                     </tr>
                                 )
                             })

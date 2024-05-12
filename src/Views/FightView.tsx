@@ -6,21 +6,23 @@ import {FightModel} from "../models/fight.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
 import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
 import {isBagFull} from "../services/bags.service.ts";
+import {CharacterModelCascade} from "../models/character.model.ts";
+import {ItemModelCascade} from "../models/item.model.ts";
 
 function FightView() {
     const [fight, setFight] = useState<FightModel>({} as FightModel);
-    const [characters, setCharacters] = useState<CharacterModel[]>([] as CharacterModel[]);
-    const [characterId, setCharacterId] = useState<number>(null);
+    const [characters, setCharacters] = useState<CharacterModelCascade[]>([] as CharacterModelCascade[]);
+    const [characterId, setCharacterId] = useState<any>(null);
     const [isCharaBagFull, setIsCharaBagFull] = useState<boolean>(false);
 
     const [isVictory, setIsVictory] = useState<boolean>(false);
     const [showFightResult, setShowFightResult] = useState<boolean>(false);
-    const [treasure, setTreasure] = useState<ItemModel>({} as ItemModel);
+    const [treasure, setTreasure] = useState<ItemModelCascade>({} as ItemModelCascade);
 
-    const [maxCharaHealth, setMaxCharaHealth] = useState<number>(null);
+    const [maxCharaHealth, setMaxCharaHealth] = useState<any>(null);
     const [charaHealth, setCharaHealth] = useState<number>(0);
     const [charaHealthPourcent, setCharaHealthPourcent] = useState<string>('0%');
-    const [maxEnemyHealth, setMaxEnemyHealth] = useState<number>(null);
+    const [maxEnemyHealth, setMaxEnemyHealth] = useState<any>(null);
     const [enemyHealth, setEnemyHealth] = useState<number>(0);
     const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<string>('0%');
 
@@ -81,7 +83,7 @@ function FightView() {
             setEnemyHealth(response.enemy.stat.health);
             setMaxEnemyHealth(response.enemy.stat.health);
             setCharacterHealth(characterId);
-            setTreasure(null);
+            setTreasure({} as ItemModelCascade);
             setIsVictory(false);
             setShowFightResult(false);
         });
@@ -110,13 +112,18 @@ function FightView() {
     }
 
     const getPourcentHealth = (type: string, health) => {
-        console.log(type, health, maxCharaHealth, maxEnemyHealth);
         if (type === 'character') {
+            if (maxCharaHealth === 0) {
+                return '0%';
+            }
             const value = ((health / maxCharaHealth) * 100);
-            return value < 0 || value === 'Infinity' ? 0 : value + '%';
+            return value < 0 ? 0 + '%' : value + '%';
         } else {
+            if (maxEnemyHealth === 0) {
+                return '0%';
+            }
             const value = ((health / maxEnemyHealth) * 100);
-            return value < 0 || value === 'Infinity' ? 0 : value + '%';
+            return value < 0 ? 0 + '%' : value + '%';
         }
     }
 
@@ -171,9 +178,8 @@ function FightView() {
                         <div className="overflow-hidden w-100">
                             <img src={getCharacterPicture()} className="img-fluid" alt="chara-picture"/>
                         </div>
-                        <div className="progress w-100" role="progressbar" aria-label="Example with label"
-                             aria-valuenow="25"
-                             aria-valuemin="0" aria-valuemax="100">
+                        <div className="progress w-100" role="progressbar" aria-label="health character"
+                             aria-valuemin={0} aria-valuemax={100}>
                             <div className="progress-bar bg-success"
                                  style={{width: charaHealthPourcent}}>{charaHealth}
                             </div>
@@ -184,9 +190,8 @@ function FightView() {
                         <div className="overflow-hidden w-100">
                             <img src={fight?.enemy?.picture} className="img-fluid" alt="enemy-picture"/>
                         </div>
-                        <div className="progress w-100" role="progressbar" aria-label="Example with label"
-                             aria-valuenow="25"
-                             aria-valuemin="0" aria-valuemax="100">
+                        <div className="progress w-100" role="progressbar" aria-label="health enemy"
+                             aria-valuemin={0} aria-valuemax={100}>
                             <div className="progress-bar bg-success"
                                  style={{width: enemyHealthPourcent}}>{enemyHealth}
                             </div>
