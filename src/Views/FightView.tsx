@@ -271,7 +271,7 @@ function FightView() {
                             <button type="button" className="btn btn-secondary text-white"
                                     data-bs-dismiss="modal">{t('components.modal.close')}</button>
                             <button type="button" className="btn btn-primary text-white"
-                                    disabled={characterId === null || isCharaBagFull}
+                                    disabled={!characterId || isCharaBagFull}
                                     onClick={() => handleLaunch(characterId)}
                                     data-bs-dismiss="modal">{t('components.modal.launch')}</button>
                         </div>
