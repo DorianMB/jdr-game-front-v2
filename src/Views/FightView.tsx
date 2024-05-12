@@ -195,7 +195,9 @@ function FightView() {
                         treasure && Object.keys(treasure).length > 0 &&
                         <div className="mt-3 d-flex flex-column justify-content-center align-items-center"
                              style={{width: '18rem'}}>
-                            <img src={treasure.loot_id.picture} className="img-fluid" alt="treasure-picture"/>
+                            <img src={treasure.loot_id.picture}
+                                 className={'img-fluid border border-2 ' + `bc-${treasure.rarity.toLowerCase()}`}
+                                 alt="treasure-picture"/>
                             <div className="d-flex flex-column">
                                 <h5 className="text-center">{treasure.loot_id.name}</h5>
                                 <p className="text-center">{treasure.loot_id.description}</p>
