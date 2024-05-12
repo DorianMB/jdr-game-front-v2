@@ -3,7 +3,7 @@ import {getEquipmentById} from "../services/equipments.service.ts";
 export const getCumulativeStatFromEquipment = async (
     equipment: Equipment,
     stat: string,
-): number => {
+): Promise<number> => {
     const newEquip = await getEquipmentById(equipment.equipment_id);
     console.log('ici', newEquip, stat);
     let cumulative = 0;
@@ -37,5 +37,7 @@ export const getCumulativeStatFromEquipment = async (
     ) {
         cumulative += newEquip.secondary_magic_item_id[stat];
     }
-    return cumulative;
+    return stat === 'health'
+        ? Math.floor(cumulative / 2)
+        : Math.floor(cumulative / 10);
 };

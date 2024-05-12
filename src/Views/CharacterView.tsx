@@ -9,10 +9,12 @@ import {STATS_TYPE_LIST} from "../utils/constants.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
 import {getItemsByBagId} from "../services/bags.service.ts";
 import {equipItem, getItemById, putInBag, sellItem} from "../services/items.service.ts";
+import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
     const [stat, setStat] = useState<[string, any][]>([]);
+    const [cumulativeStat, setCumulativeStat] = useState<object>({});
     const [bagItems, setBagItems] = useState<ItemModelCascade[]>([]);
 
     const [userId, setUserId] = useState<number | null>(null);
@@ -54,6 +56,10 @@ function CharacterView() {
     useEffect(() => {
         refreshItemData();
     }, [itemId]);
+
+    useEffect(() => {
+        handleStat();
+    }, [character]);
 
     const handleContextMenu = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -113,6 +119,16 @@ function CharacterView() {
         }).then(() => {
             refreshCharacterData(+id!)
         });
+    }
+
+    const handleStat = async () => {
+        if (character) {
+            const newCumulativeStat = {};
+            for (const stat of STATS_TYPE_LIST) {
+                newCumulativeStat[stat] = await getCumulativeStatFromEquipment(character.equipment_id, stat);
+            }
+            setCumulativeStat(newCumulativeStat);
+        }
     }
 
     return (
@@ -297,6 +313,7 @@ function CharacterView() {
                         </div>
                     </div>
                 </div>
+
                 {/*container stat*/}
                 <div className="d-flex m-3">
                     <table className="table table-striped table-responsive table-bordered">
@@ -306,7 +323,7 @@ function CharacterView() {
                                 return (
                                     <tr key={index}>
                                         <td className="cell-sized text-center">{t('entities.stat.' + value[0])}</td>
-                                        <td className="cell-sized text-center">{value[1]}</td>
+                                        <td className="cell-sized text-center">{value[1]} ({cumulativeStat[value[0]]})</td>
                                     </tr>
                                 )
                             })
