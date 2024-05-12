@@ -44,9 +44,11 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
         isDisabled: ["character_id", "created_at", "updated_at"],
         defaultData: {
             character_id: null,
+            name: '',
             picture: '',
             level: '',
             experience: '',
+            experience_points: '',
             money: '',
             user_id: '',
             equipment_id: '',
@@ -61,10 +63,10 @@ export const configTableCharacters = (users: UserModel[]): ConfigTable => {
 }
 
 export const configTableBags = {
-    columnsKeys: ['bag_id', 'length', 'created_at', 'updated_at'],
+    columnsKeys: ['bag_id', 'size', 'created_at', 'updated_at'],
     columsTypes: ['number', 'number', 'date', 'date'],
     isDisabled: ["bag_id", "created_at", "updated_at"],
-    defaultData: {bag_id: null, length: '', created_at: '', updated_at: ''},
+    defaultData: {bag_id: null, size: '', created_at: '', updated_at: ''},
     actions: ['Edit', 'Delete', 'View'],
     canAdd: true
 };

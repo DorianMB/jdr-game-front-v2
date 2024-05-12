@@ -335,7 +335,7 @@ function CharacterView() {
 
             <div className="d-flex mt-5 flex-wrap justify-content-center">
                 {
-                    character?.bag_id?.length && Array.from(Array(character.bag_id.length).keys()).map((index) => {
+                    character?.bag_id?.size && Array.from(Array(character.bag_id.size).keys()).map((index) => {
                         return (
                             <div key={index} className={'item-card-space ' + `bc-${bagItems[index]?.rarity.toLowerCase()}`}
                                  onContextMenu={($event) => {

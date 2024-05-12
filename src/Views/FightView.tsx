@@ -5,11 +5,13 @@ import {useEffect, useState} from "react";
 import {FightModel} from "../models/fight.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
 import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
+import {isBagFull} from "../services/bags.service.ts";
 
 function FightView() {
     const [fight, setFight] = useState<FightModel>({} as FightModel);
     const [characters, setCharacters] = useState<CharacterModel[]>([] as CharacterModel[]);
     const [characterId, setCharacterId] = useState<number>(null);
+    const [isCharaBagFull, setIsCharaBagFull] = useState<boolean>(false);
 
     const [isVictory, setIsVictory] = useState<boolean>(false);
     const [showFightResult, setShowFightResult] = useState<boolean>(false);
@@ -85,8 +87,20 @@ function FightView() {
         });
     }
 
+    const handleBagFull = (id: number) => {
+        isBagFull(id).then((response) => {
+            setIsCharaBagFull(response);
+        });
+    }
+
     const findIndex = (id) => {
         return characters.findIndex(chara => chara.character_id === id);
+    }
+
+    const getCharacterPresentation = () => {
+        const index = findIndex(characterId);
+        if (index === -1) return '';
+        return characters[index].name + ' : niv' + characters[index].level;
     }
 
     const getCharacterPicture = () => {
@@ -152,22 +166,26 @@ function FightView() {
             {
                 Object.keys(fight).length > 0 &&
                 <div className="d-flex justify-content-around align-items-center mt-5">
-                    <div className="w-25">
+                    <div className="w-25 d-flex flex-column align-items-center">
+                        <h5>{getCharacterPresentation()}</h5>
                         <div className="overflow-hidden w-100">
                             <img src={getCharacterPicture()} className="img-fluid" alt="chara-picture"/>
                         </div>
-                        <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                        <div className="progress w-100" role="progressbar" aria-label="Example with label"
+                             aria-valuenow="25"
                              aria-valuemin="0" aria-valuemax="100">
                             <div className="progress-bar bg-success"
                                  style={{width: charaHealthPourcent}}>{charaHealth}
                             </div>
                         </div>
                     </div>
-                    <div className="w-25">
+                    <div className="w-25 d-flex flex-column align-items-center">
+                        <h5>{fight?.enemy?.name} : niv {fight?.enemy.level}</h5>
                         <div className="overflow-hidden w-100">
                             <img src={fight?.enemy?.picture} className="img-fluid" alt="enemy-picture"/>
                         </div>
-                        <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                        <div className="progress w-100" role="progressbar" aria-label="Example with label"
+                             aria-valuenow="25"
                              aria-valuemin="0" aria-valuemax="100">
                             <div className="progress-bar bg-success"
                                  style={{width: enemyHealthPourcent}}>{enemyHealth}
@@ -226,8 +244,9 @@ function FightView() {
                                         value={characterId === null ? characters[0].character_id : characterId}
                                         onChange={($event) => {
                                             setCharacterId(parseInt($event.target.value));
+                                            handleBagFull(parseInt($event.target.value));
                                         }}>
-                                    <option value=''>-</option>
+                                    <option value=''>{t('pages.fight.modal-select')}</option>
                                     {
                                         characters.map((character) => {
                                             return <option value={character.character_id}
@@ -236,12 +255,18 @@ function FightView() {
                                     }
                                 </select>
                             }
+                            {
+                                isCharaBagFull &&
+                                <div className="alert alert-danger mt-3" role="alert">
+                                    {t('components.alert.bag-full')}
+                                </div>
+                            }
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary text-white"
                                     data-bs-dismiss="modal">{t('components.modal.close')}</button>
                             <button type="button" className="btn btn-primary text-white"
-                                    disabled={characterId === null}
+                                    disabled={characterId === null || isCharaBagFull}
                                     onClick={() => handleLaunch(characterId)}
                                     data-bs-dismiss="modal">{t('components.modal.launch')}</button>
                         </div>

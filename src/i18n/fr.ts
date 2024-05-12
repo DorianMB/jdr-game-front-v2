@@ -124,6 +124,9 @@ export const fr = {
                 "close": "Fermer",
                 "save": "Sauvegarder",
                 "launch": "Lancer"
+            },
+            "alert": {
+                "bag-full": "Le sac de ce personnage est plein, impossible de lancer un combat",
             }
         },
         "pages": {
@@ -145,6 +148,7 @@ export const fr = {
                 "title": "Combat",
                 "launch": "Lancer un combat",
                 "modal-title": "Choisir un personnage",
+                "modal-select": "Sélectionner un personnage",
                 "victory": "Victoire",
                 "defeat": "Défaite"
             },

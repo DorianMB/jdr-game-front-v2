@@ -14,6 +14,7 @@ export const CHARACTERS_FIGHT = CHARACTERS + '/fight';
 // bags
 export const BAGS = BASE_URL + '/bags';
 export const BAGS_ITEMS = BAGS + '/items';
+export const ISBAGFULL = BAGS + '/isBagFull';
 
 // equipments
 export const EQUIPMENTS = BASE_URL + '/equipments';

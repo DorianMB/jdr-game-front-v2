@@ -1,5 +1,5 @@
 import axios from "axios";
-import {BAGS, BAGS_ITEMS} from "../utils/api.ts";
+import {BAGS, BAGS_ITEMS, ISBAGFULL} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
 import {BagModel} from "../models/bag.model.ts";
 
@@ -30,4 +30,10 @@ export const patchBag = async (bag: Partial<BagModel>): Promise<BagModel> => {
 export const deleteBag = async (bag: BagModel): Promise<void> => {
     const token = localStorage.getItem('token');
     await axios.delete(BAGS + '/' + bag.bag_id, jwtHeader(token!));
+}
+
+export const isBagFull = async (id: string): Promise<boolean> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(ISBAGFULL + '/' + id, jwtHeader(token!));
+    return response.data;
 }
