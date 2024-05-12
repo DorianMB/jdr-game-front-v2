@@ -11,6 +11,10 @@ function FightView() {
     const [characters, setCharacters] = useState<CharacterModel[]>([] as CharacterModel[]);
     const [characterId, setCharacterId] = useState<number>(null);
 
+    const [isVictory, setIsVictory] = useState<boolean>(false);
+    const [showFightResult, setShowFightResult] = useState<boolean>(false);
+    const [treasure, setTreasure] = useState<ItemModel>({} as ItemModel);
+
     const [maxCharaHealth, setMaxCharaHealth] = useState<number>(null);
     const [charaHealth, setCharaHealth] = useState<number>(0);
     const [charaHealthPourcent, setCharaHealthPourcent] = useState<string>('0%');
@@ -75,6 +79,9 @@ function FightView() {
             setEnemyHealth(response.enemy.stat.health);
             setMaxEnemyHealth(response.enemy.stat.health);
             setCharacterHealth(characterId);
+            setTreasure(null);
+            setIsVictory(false);
+            setShowFightResult(false);
         });
     }
 
@@ -107,6 +114,11 @@ function FightView() {
             if (index === rounds.length) {
                 setMaxEnemyHealth(null);
                 setMaxCharaHealth(null);
+
+                setIsVictory(fight.isVictory);
+                setTreasure(fight.treasure);
+                setShowFightResult(true);
+
                 clearInterval(interval);
                 setFight({} as FightModel);
                 return;
@@ -162,6 +174,34 @@ function FightView() {
                             </div>
                         </div>
                     </div>
+                </div>
+            }
+
+            {/*FIGHT RESULT*/}
+            {
+                showFightResult &&
+                <div className="d-flex flex-column justify-content-center align-items-center mt-5">
+                    {
+                        isVictory ?
+                            <div className="alert alert-success" role="alert">
+                                {t('pages.fight.victory')}
+                            </div>
+                            :
+                            <div className="alert alert-danger" role="alert">
+                                {t('pages.fight.defeat')}
+                            </div>
+                    }
+                    {
+                        treasure && Object.keys(treasure).length > 0 &&
+                        <div className="mt-3 d-flex flex-column justify-content-center align-items-center"
+                             style={{width: '18rem'}}>
+                            <img src={treasure.loot_id.picture} className="img-fluid" alt="treasure-picture"/>
+                            <div className="d-flex flex-column">
+                                <h5 className="text-center">{treasure.loot_id.name}</h5>
+                                <p className="text-center">{treasure.loot_id.description}</p>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
 
