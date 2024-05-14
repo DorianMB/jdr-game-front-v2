@@ -23,6 +23,7 @@ import {equipItem, getItemById, putInBag, sellItem} from "../services/items.serv
 import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
 import {patchStat} from "../services/stats.service.ts";
 import Badge from "../Components/Badge.tsx";
+import * as bootstrap from "bootstrap";
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
@@ -31,6 +32,8 @@ function CharacterView() {
     const [bagItems, setBagItems] = useState<ItemModelCascade[]>([]);
 
     const [userId, setUserId] = useState<number | null>(null);
+
+    const [tooltipList, setTooltipList] = useState<any[]>([]);
 
     const [contextMenu, setContextMenu] = useState<{ x: number, y: number, show: boolean }>({x: 0, y: 0, show: false});
     const [itemId, setItemId] = useState<number | undefined>(undefined);
@@ -76,6 +79,9 @@ function CharacterView() {
 
     const handleContextMenu = (event: React.MouseEvent) => {
         event.preventDefault();
+        tooltipList.forEach(tooltip => {
+            tooltip.hide();
+        });
         setContextMenu({x: event.clientX, y: event.clientY, show: true});
     };
 
@@ -92,6 +98,9 @@ function CharacterView() {
             getItemsByBagId(data.bag_id.bag_id).then((items) => {
                 setBagItems(items);
             });
+            setTimeout(() => {
+                setupTooltip();
+            }, 200);
         });
     }
 
@@ -142,6 +151,31 @@ function CharacterView() {
             }
             setCumulativeStat(newCumulativeStat);
         }
+    }
+
+    const setupTooltip = () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        setTooltipList(tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        }));
+    }
+
+    const tooltip = (item: ItemModelCascade): string => {
+        let result = '';
+        if (item) {
+            const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck'];
+            if (item.charm) {
+                keysToShowInItem.push('charm_type', 'charm_value');
+            }
+
+            // Parcourir les autres propriétés
+            Object.entries(item).forEach(([key, value]) => {
+                if (key !== 'loot_id' && keysToShowInItem.includes(key)) {
+                    result += `<div><b>${t('entities.item.' + key)} :</b> ${value !== null ? value : ''}</div>`;
+                }
+            });
+        }
+        return `<div>${result}</div>`;
     }
 
     const handleUpdateStat = (stat: string) => () => {
@@ -224,6 +258,9 @@ function CharacterView() {
                                 character?.equipment_id!.helmet_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.helmet_id)}
                                      src={character?.equipment_id!.helmet_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -240,6 +277,9 @@ function CharacterView() {
                                 character?.equipment_id!.chestplate_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.chestplate_id)}
                                      src={character?.equipment_id!.chestplate_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -256,6 +296,9 @@ function CharacterView() {
                                 character?.equipment_id!.gloves_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.gloves_id)}
                                      src={character?.equipment_id!.gloves_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -272,6 +315,9 @@ function CharacterView() {
                                 character?.equipment_id!.boots_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.boots_id)}
                                      src={character?.equipment_id!.boots_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -295,6 +341,9 @@ function CharacterView() {
                                 character?.equipment_id!.primary_weapon_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.primary_weapon_id)}
                                      src={character?.equipment_id!.primary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -311,6 +360,9 @@ function CharacterView() {
                                 character?.equipment_id!.secondary_weapon_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.secondary_weapon_id)}
                                      src={character?.equipment_id!.secondary_weapon_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -327,6 +379,9 @@ function CharacterView() {
                                 character?.equipment_id!.primary_magic_item_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.primary_magic_item_id)}
                                      src={character?.equipment_id!.primary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -343,6 +398,9 @@ function CharacterView() {
                                 character?.equipment_id!.secondary_magic_item_id &&
                                 <img className="img-fluid"
                                      alt="equipment-picture"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
+                                     data-bs-title={tooltip(character.equipment_id.secondary_magic_item_id)}
                                      src={character?.equipment_id!.secondary_magic_item_id!.loot_id!.picture}/>
                                 ||
                                 <RiQuestionMark></RiQuestionMark>
@@ -352,7 +410,7 @@ function CharacterView() {
                 </div>
 
                 {/*container stat*/}
-                <div className="d-flex m-3">
+                <div className="d-flex my-3 mx-5">
                     <table className="table table-striped table-responsive table-bordered">
                         <tbody>
                         {
@@ -380,7 +438,7 @@ function CharacterView() {
                 </div>
             </div>
 
-            <div className="d-flex mt-5 flex-wrap justify-content-center">
+            <div className="d-flex mt-5 pb-5 flex-wrap justify-content-center">
                 {
                     character?.bag_id?.size && Array.from(Array(character.bag_id.size).keys()).map((index) => {
                         return (
@@ -394,6 +452,9 @@ function CharacterView() {
                                     bagItems.length > 0 && bagItems[index] &&
                                     <img className="img-fluid"
                                          alt="equipment-picture"
+                                         data-bs-toggle="tooltip"
+                                         data-bs-html="true"
+                                         data-bs-title={tooltip(bagItems[index])}
                                          src={bagItems[index].loot_id!.picture}/>
                                     ||
                                     <RiQuestionMark></RiQuestionMark>
