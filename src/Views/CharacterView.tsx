@@ -7,10 +7,14 @@ import {parseJwt} from "../utils/jwt.ts";
 import {
     RiAddLine,
     RiBriefcase5Line,
+    RiCoinFill,
     RiEyeLine,
+    RiMedalFill,
     RiMoneyDollarCircleLine,
     RiQuestionMark,
-    RiShirtFill
+    RiShirtFill,
+    RiSparkling2Fill,
+    RiStarFill
 } from "@remixicon/react";
 import {STATS_TYPE_LIST} from "../utils/constants.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
@@ -18,6 +22,7 @@ import {getItemsByBagId} from "../services/bags.service.ts";
 import {equipItem, getItemById, putInBag, sellItem} from "../services/items.service.ts";
 import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
 import {patchStat} from "../services/stats.service.ts";
+import Badge from "../Components/Badge.tsx";
 
 function CharacterView() {
     const [character, setCharacter] = useState<CharacterModelCascade | null>(null);
@@ -185,17 +190,27 @@ function CharacterView() {
                 </div>
             )}
 
-            <div className="d-flex justify-content-around mt-4">
-                <span>{t('entities.character.level')} : {character?.level}</span>
-                <span>{t('entities.character.experience')} : {character?.experience}</span>
-                <span>{t('entities.character.experience_points')} : {character?.experience_points}</span>
-                <span>{t('entities.character.money')} : {character?.money}</span>
+            <div className="d-flex justify-content-around flex-wrap mt-4">
+                <Badge upperContent={character?.level} lowerContent={t('entities.character.level')} color="primary">
+                    <RiMedalFill></RiMedalFill>
+                </Badge>
+                <Badge upperContent={character?.experience} lowerContent={t('entities.character.experience')}
+                       color="accent-1">
+                    <RiSparkling2Fill></RiSparkling2Fill>
+                </Badge>
+                <Badge upperContent={character?.experience_points}
+                       lowerContent={t('entities.character.experience_points')} color="accent-2">
+                    <RiStarFill></RiStarFill>
+                </Badge>
+                <Badge upperContent={character?.money} lowerContent={t('entities.character.money')} color="secondary">
+                    <RiCoinFill></RiCoinFill>
+                </Badge>
             </div>
 
-            <div className="d-flex mt-4 justify-content-around">
+            <div className="d-flex flex-column flex-lg-row mt-4 justify-content-around">
 
                 {/*container equipment + character picture*/}
-                <div className="d-flex m-3">
+                <div className="d-flex justify-content-center m-3">
                     {/*container helmet / chestplate / gloves / boot*/}
                     <div className="d-flex flex-column">
                         <div

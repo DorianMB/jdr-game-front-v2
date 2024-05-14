@@ -1,4 +1,13 @@
-.logo-header {
-  height: 50px;
-  width: auto;
+.navbar.navbar-expand-lg {
+  box-shadow: $shadow;
+
+  .logo-header {
+    height: 50px;
+    width: auto;
+  }
+
+  .navbar-collapse {
+    justify-content: center;
+    margin-left: -50px;
+  }
 }

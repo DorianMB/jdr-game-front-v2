@@ -67,39 +67,40 @@ function Header() {
                         aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <NavLink className={"nav-link d-flex align-items-center me-2"}
-                                     aria-current="page"
-                                     to="/">
-                                <RiHome2Line className="me-2"></RiHome2Line>
-                                Home
-                            </NavLink>
-                        </li>
-                        {(user && user.is_admin === 1) && (
-                            <li className="nav-item">
-                                <NavLink className={"nav-link d-flex align-items-center me-2"}
-                                         to="/admin">
-                                    <RiAdminLine className="me-2"></RiAdminLine>
-                                    Admin
-                                </NavLink>
-                            </li>
-                        )
-                        }
+                <div className="collapse navbar-collapse"
+                     id="navbarTogglerDemo02">
+                    <ul className="navbar-nav mb-2 mb-lg-0 d-flex align-items-center justify-content-center">
                         {isAuth ? (
                             <>
                                 <li className="nav-item">
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
-                                             to="/fight">
-                                        <RiSwordLine className="me-2"></RiSwordLine>
-                                        Fight
+                                             aria-current="page"
+                                             to="/">
+                                        <RiHome2Line className="me-4 me-lg-2"></RiHome2Line>
+                                        Home
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className={"nav-link d-flex align-items-center me-2"} to="/"
+                                    <NavLink className={"nav-link d-flex align-items-center me-2"}
+                                             to="/fight">
+                                        <RiSwordLine className="me-4 me-lg-2"></RiSwordLine>
+                                        Fight
+                                    </NavLink>
+                                </li>
+                                {(user && user.is_admin === 1) && (
+                                    <li className="nav-item">
+                                        <NavLink className={"nav-link d-flex align-items-center me-2"}
+                                                 to="/admin">
+                                            <RiAdminLine className="me-4 me-lg-2"></RiAdminLine>
+                                            Admin
+                                        </NavLink>
+                                    </li>
+                                )
+                                }
+                                <li className="nav-item">
+                                    <NavLink className={"nav-link d-flex align-items-center me-2"} to="/logout"
                                              onClick={logout}>
-                                        <RiShutDownLine className="me-2"></RiShutDownLine>
+                                        <RiShutDownLine className="me-4 me-lg-2"></RiShutDownLine>
                                         Logout
                                     </NavLink>
                                 </li>
@@ -109,14 +110,14 @@ function Header() {
                                 <li className="nav-item">
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/signin">
-                                        <RiLoginCircleLine className="me-2"></RiLoginCircleLine>
+                                        <RiLoginCircleLine className="me-4 me-lg-2"></RiLoginCircleLine>
                                         Sign In
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/signup">
-                                        <RiUserAddLine className="me-2"></RiUserAddLine>
+                                        <RiUserAddLine className="me-4 me-lg-2"></RiUserAddLine>
                                         Sign Up
                                     </NavLink>
                                 </li>

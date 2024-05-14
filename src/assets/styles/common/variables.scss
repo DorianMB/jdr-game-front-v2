@@ -9,6 +9,13 @@ $danger: #dc3545FF;
 $light: #f8f9faFF;
 $dark: #343a40FF;
 
+//colors rarity
+$common: #888888;
+$uncommon: #28bc14;
+$rare: #0070dd;
+$epic: #a335ee;
+$legendary: #ff8000;
+
 $theme-colors: (
         "primary": $primary,
         "secondary": $secondary,
@@ -19,10 +26,32 @@ $theme-colors: (
         "warning": $warning,
         "danger": $danger,
         "light": $light,
-        "dark": $dark
+        "dark": $dark,
+        "common": $common,
+        "uncommon": $uncommon,
+        "rare": $rare,
+        "epic": $epic,
+        "legendary": $legendary
 );
 
 $radius: 20px;
 
 $shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 $shadow-inner: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+
+$font-size: 16px;
+
+$font-sizes: (
+        1: $font-size * 0.25,
+        2: $font-size * 0.5,
+        3: $font-size * 0.75,
+        4: $font-size,
+        5: $font-size * 1.25,
+        6: $font-size * 1.5,
+        7: $font-size * 1.75,
+        8: $font-size * 2,
+        9: $font-size * 2.25,
+        10: $font-size * 2.5,
+        11: $font-size * 2.75,
+        12: $font-size * 3
+);

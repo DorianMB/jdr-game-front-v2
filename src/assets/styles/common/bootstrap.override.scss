@@ -43,22 +43,8 @@ $bg-url: "https://cdn.midjourney.com/1cf6c942-a3cc-4f77-8874-97eef71e0c01/0_3.we
   }
 }
 
-.bc-common {
-  border-color: #888888 !important;
-}
-
-.bc-uncommon {
-  border-color: #28bc14 !important;
-}
-
-.bc-rare {
-  border-color: #0070dd !important;
-}
-
-.bc-epic {
-  border-color: #a335ee !important;
-}
-
-.bc-legendary {
-  border-color: #ff8000 !important;
+@each $color, $value in $theme-colors {
+  .bc-#{$color} {
+    border-color: $value !important;
+  }
 }
