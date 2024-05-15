@@ -7,6 +7,8 @@ import Header from "./Components/Header.tsx";
 import CharacterView from "./Views/CharacterView.tsx";
 import FightView from "./Views/FightView.tsx";
 
+const version = import.meta.env.VITE_APP_VERSION;
+
 function App() {
     return (
         <>
@@ -19,6 +21,7 @@ function App() {
                 <Route path="/character/:id" element={<CharacterView/>}/>
                 <Route path="/fight" element={<FightView/>}/>
             </Routes>
+            <span className="badge bg-uncommon badge-version">{version}</span>
         </>
     )
 }
