@@ -77,14 +77,6 @@ function CharacterView() {
         handleStat();
     }, [character]);
 
-    const handleContextMenu = (event: React.MouseEvent) => {
-        event.preventDefault();
-        tooltipList.forEach(tooltip => {
-            tooltip.hide();
-        });
-        setContextMenu({x: event.clientX, y: event.clientY, show: true});
-    };
-
     const refreshCharacterData = (id: number) => {
         getCharacterById(id).then((data) => {
             if (data.user_id.user_id !== userId) {
@@ -112,7 +104,39 @@ function CharacterView() {
         }
     }
 
+    const setupTooltip = () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        setTooltipList(tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        }));
+    }
+
+    const closeTooltips = () => {
+        tooltipList.forEach(tooltip => {
+            tooltip.hide();
+        });
+    }
+
+    const tooltip = (item: ItemModelCascade): string => {
+        let result = '';
+        if (item) {
+            const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck'];
+            if (item.charm) {
+                keysToShowInItem.push('charm_type', 'charm_value');
+            }
+
+            // Parcourir les autres propriétés
+            Object.entries(item).forEach(([key, value]) => {
+                if (key !== 'loot_id' && keysToShowInItem.includes(key)) {
+                    result += `<div><b>${t('entities.item.' + key)} :</b> ${value !== null ? value : ''}</div>`;
+                }
+            });
+        }
+        return `<div>${result}</div>`;
+    }
+
     const handlePutInBag = () => {
+        closeTooltips();
         putInBag({
             item_id: itemId!,
             bag_id: character!.bag_id.bag_id!,
@@ -123,6 +147,7 @@ function CharacterView() {
     };
 
     const handleEquip = () => {
+        closeTooltips();
         equipItem({
             item_id: itemId!,
             bag_id: character!.bag_id.bag_id!,
@@ -133,6 +158,7 @@ function CharacterView() {
     };
 
     const handleSell = () => {
+        closeTooltips();
         sellItem({
             item_id: itemId!,
             bag_id: character!.bag_id.bag_id!,
@@ -153,30 +179,11 @@ function CharacterView() {
         }
     }
 
-    const setupTooltip = () => {
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        setTooltipList(tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        }));
-    }
-
-    const tooltip = (item: ItemModelCascade): string => {
-        let result = '';
-        if (item) {
-            const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck'];
-            if (item.charm) {
-                keysToShowInItem.push('charm_type', 'charm_value');
-            }
-
-            // Parcourir les autres propriétés
-            Object.entries(item).forEach(([key, value]) => {
-                if (key !== 'loot_id' && keysToShowInItem.includes(key)) {
-                    result += `<div><b>${t('entities.item.' + key)} :</b> ${value !== null ? value : ''}</div>`;
-                }
-            });
-        }
-        return `<div>${result}</div>`;
-    }
+    const handleContextMenu = (event: React.MouseEvent) => {
+        event.preventDefault();
+        closeTooltips();
+        setContextMenu({x: event.clientX, y: event.clientY, show: true});
+    };
 
     const handleUpdateStat = (stat: string) => () => {
         if (character) {
@@ -200,6 +207,7 @@ function CharacterView() {
                 <div style={{position: 'absolute', top: contextMenu.y, left: contextMenu.x}}
                      className="context-menu">
                     <div className="menu-item"
+                         onClick={closeTooltips}
                          data-bs-toggle="modal"
                          data-bs-target="#modalDetails-item">
                         <RiEyeLine className="me-3"></RiEyeLine> {t('pages.character.context-menu.detail')}
