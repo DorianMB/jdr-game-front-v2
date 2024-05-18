@@ -26,6 +26,9 @@ function FightView() {
     const [enemyHealth, setEnemyHealth] = useState<number>(0);
     const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<string>('0%');
 
+    const [enemyAttack, setEnemyAttack] = useState<{ show: boolean, damage: number }>({damage: 0, show: false});
+    const [charaAttack, setCharaAttack] = useState<{ show: boolean, damage: number }>({damage: 0, show: false});
+
     const {t} = useTranslation();
 
     useEffect(() => {
@@ -51,6 +54,8 @@ function FightView() {
 
     useEffect(() => {
         if (maxEnemyHealth !== null && maxCharaHealth !== null) {
+            setEnemyAttack({show: false, damage: 0});
+            setCharaAttack({show: false, damage: 0});
             setTimeout(() => {
                 simulateFightAnimation();
             }, 2000);
@@ -148,9 +153,13 @@ function FightView() {
             if (round.attacker === 'character') {
                 setEnemyHealth(round.enemyHealth);
                 setEnemyHealthPourcent(getPourcentHealth('enemy', round.enemyHealth));
+                setEnemyAttack({show: false, damage: 0});
+                setCharaAttack({show: true, damage: round.characterDamage});
             } else {
                 setCharaHealth(round.characterHealth);
                 setCharaHealthPourcent(getPourcentHealth('character', round.characterHealth));
+                setCharaAttack({show: false, damage: 0});
+                setEnemyAttack({show: true, damage: round.enemyDamage});
             }
             index++;
         }, 1000);
@@ -173,7 +182,7 @@ function FightView() {
             {
                 Object.keys(fight).length > 0 &&
                 <div className="d-flex justify-content-around align-items-center mt-5">
-                    <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="w-25 d-flex flex-column align-items-center position-relative">
                         <h5>{getCharacterPresentation()}</h5>
                         <div className="overflow-hidden w-100">
                             <img src={getCharacterPicture()} className="img-fluid" alt="chara-picture"/>
@@ -184,8 +193,14 @@ function FightView() {
                                  style={{width: charaHealthPourcent}}>{charaHealth}
                             </div>
                         </div>
+                        {
+                            enemyAttack.show &&
+                            <div className="badge bg-danger position-absolute fs-6 top-50">
+                                - {enemyAttack.damage}
+                            </div>
+                        }
                     </div>
-                    <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="w-25 d-flex flex-column align-items-center position-relative">
                         <h5>{fight?.enemy?.name} : niv {fight?.enemy.level}</h5>
                         <div className="overflow-hidden w-100">
                             <img src={fight?.enemy?.picture} className="img-fluid" alt="enemy-picture"/>
@@ -196,6 +211,12 @@ function FightView() {
                                  style={{width: enemyHealthPourcent}}>{enemyHealth}
                             </div>
                         </div>
+                        {
+                            charaAttack.show &&
+                            <div className="badge bg-danger position-absolute fs-6 top-50">
+                                - {charaAttack.damage}
+                            </div>
+                        }
                     </div>
                 </div>
             }

@@ -16,6 +16,11 @@ function Header() {
     const [logoUrl] = useState(['/logo1.png', '/logo2.png', '/logo3.png', '/logo4.png'])
     const [isAuth, setAuth] = useState(false)
     const [user, setUser] = useState<UserModel>()
+
+    const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+    const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -62,13 +67,13 @@ function Header() {
                     !logoUrl &&
                     <NavLink className="navbar-brand" to="/">{title}</NavLink>
                 }
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button"
+                        aria-controls="navbarText" aria-expanded={!isNavCollapsed}
+                        aria-label="Toggle navigation"
+                        onClick={handleNavCollapse}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse"
-                     id="navbarTogglerDemo02">
+                <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
                     <ul className="navbar-nav mb-2 mb-lg-0 d-flex align-items-center justify-content-center">
                         {isAuth ? (
                             <>
