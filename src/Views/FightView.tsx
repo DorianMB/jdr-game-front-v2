@@ -138,15 +138,18 @@ function FightView() {
         let index = 0;
         const interval = setInterval(() => {
             if (index === rounds.length) {
-                setMaxEnemyHealth(null);
-                setMaxCharaHealth(null);
+                setTimeout(() => {
+                    setMaxEnemyHealth(null);
+                    setMaxCharaHealth(null);
 
-                setIsVictory(fight.isVictory);
-                setTreasure(fight.treasure);
-                setShowFightResult(true);
+                    setIsVictory(fight.isVictory);
+                    setTreasure(fight.treasure);
 
-                clearInterval(interval);
-                setFight({} as FightModel);
+                    setShowFightResult(true);
+
+                    clearInterval(interval);
+                    setFight({} as FightModel);
+                }, 1000);
                 return;
             }
             const round = rounds[index];
@@ -195,7 +198,8 @@ function FightView() {
                         </div>
                         {
                             enemyAttack.show &&
-                            <div className="badge bg-danger position-absolute fs-6 top-50">
+                            <div
+                                className="badge bg-danger position-absolute fs-6 top-50 animate__animated animate__slower animate__fadeInUp animate__fadeOutUp">
                                 - {enemyAttack.damage}
                             </div>
                         }
@@ -213,7 +217,8 @@ function FightView() {
                         </div>
                         {
                             charaAttack.show &&
-                            <div className="badge bg-danger position-absolute fs-6 top-50">
+                            <div
+                                className="badge bg-danger position-absolute fs-6 top-50 animate__animated animate__slower animate__fadeInUp animate__fadeOutUp">
                                 - {charaAttack.damage}
                             </div>
                         }
