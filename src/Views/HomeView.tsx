@@ -6,7 +6,7 @@ import {getCharacterByUserId, postCharacter} from "../services/characters.servic
 import {useNavigate} from "react-router-dom";
 import {RiAddLine} from "@remixicon/react";
 import {useTranslation} from "react-i18next";
-import {getChangelog} from "../assets/changelogs.ts";
+import {getChangelog} from "../utils/changelogs.ts";
 
 function HomeView() {
     const [decodedToken, setDecodedToken] = useState<{ username: string, sub: number } | null>(null);
