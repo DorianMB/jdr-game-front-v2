@@ -1,5 +1,5 @@
 .animation-weapon-sword-left {
-  animation-duration: 1s;
+  animation-duration: $animation-duration;
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-name: weapon-sword-left;
@@ -7,7 +7,7 @@
 }
 
 .animation-weapon-sword-right {
-  animation-duration: 1s;
+  animation-duration: $animation-duration;
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-name: weapon-sword-right;
@@ -15,7 +15,7 @@
 }
 
 .animation-weapon-magic-left {
-  animation-duration: 1s;
+  animation-duration: $animation-duration;
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-name: weapon-magic-left;
@@ -24,7 +24,7 @@
 
 .animation-weapon-magic-right {
   transform: matrix(-1, 0, 0, 1, 0, 0);
-  animation-duration: 1s;
+  animation-duration: $animation-duration;
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-name: weapon-magic-right;

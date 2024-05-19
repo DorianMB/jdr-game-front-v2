@@ -187,7 +187,7 @@ function FightView() {
 
                     clearInterval(interval);
                     setFight({} as FightModel);
-                }, 1000);
+                }, 2000);
                 return;
             }
             const round = rounds[index];
@@ -207,7 +207,7 @@ function FightView() {
                 setEnemyAttack({show: true, damage: round.enemyDamage, fightPicture: fight.enemy.fight_picture});
             }
             index++;
-        }, 1000);
+        }, 2000);
     }
 
     return (
