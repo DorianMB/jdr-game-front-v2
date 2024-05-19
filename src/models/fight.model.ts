@@ -3,6 +3,10 @@ import {StatModel} from "./stat.model.ts";
 
 export interface FightModel {
     enemy: Enemy;
+    characterWeapon: {
+        type: string;
+        picture: string;
+    };
     rounds: any[];
     isVictory: boolean;
     treasure: ItemModelCascade;

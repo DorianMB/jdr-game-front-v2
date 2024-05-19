@@ -77,7 +77,7 @@ function Header() {
                     <ul className="navbar-nav mb-2 mb-lg-0 d-flex align-items-center justify-content-center">
                         {isAuth ? (
                             <>
-                                <li className="nav-item">
+                                <li className="nav-item" onClick={handleNavCollapse}>
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              aria-current="page"
                                              to="/">
@@ -85,7 +85,7 @@ function Header() {
                                         Home
                                     </NavLink>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item" onClick={handleNavCollapse}>
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/fight">
                                         <RiSwordLine className="me-4 me-lg-2 text-epic"></RiSwordLine>
@@ -93,7 +93,7 @@ function Header() {
                                     </NavLink>
                                 </li>
                                 {(user && user.is_admin === 1) && (
-                                    <li className="nav-item">
+                                    <li className="nav-item" onClick={handleNavCollapse}>
                                         <NavLink className={"nav-link d-flex align-items-center me-2"}
                                                  to="/admin">
                                             <RiAdminLine className="me-4 me-lg-2 text-legendary"></RiAdminLine>
@@ -102,7 +102,7 @@ function Header() {
                                     </li>
                                 )
                                 }
-                                <li className="nav-item">
+                                <li className="nav-item" onClick={handleNavCollapse}>
                                     <div
                                         className={"nav-link d-flex align-items-center me-2 cursor-pointer"}
                                         onClick={logout}>
@@ -113,14 +113,14 @@ function Header() {
                             </>
                         ) : (
                             <>
-                                <li className="nav-item">
+                                <li className="nav-item" onClick={handleNavCollapse}>
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/signin">
                                         <RiLoginCircleLine className="me-4 me-lg-2 text-common"></RiLoginCircleLine>
                                         Sign In
                                     </NavLink>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item" onClick={handleNavCollapse}>
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/signup">
                                         <RiUserAddLine className="me-4 me-lg-2 text-common"></RiUserAddLine>

@@ -4,10 +4,11 @@ import {getCharacterByUserId, simulateFight} from "../services/characters.servic
 import {useEffect, useState} from "react";
 import {FightModel} from "../models/fight.model.ts";
 import {parseJwt} from "../utils/jwt.ts";
-import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
+import {getCumulativeStatFromEquipment, tooltip} from "../utils/functions.ts";
 import {isBagFull} from "../services/bags.service.ts";
 import {CharacterModelCascade} from "../models/character.model.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
+import * as bootstrap from "bootstrap";
 
 function FightView() {
     const [fight, setFight] = useState<FightModel>({} as FightModel);
@@ -18,6 +19,7 @@ function FightView() {
     const [isVictory, setIsVictory] = useState<boolean>(false);
     const [showFightResult, setShowFightResult] = useState<boolean>(false);
     const [treasure, setTreasure] = useState<ItemModelCascade>({} as ItemModelCascade);
+    const [tooltipList, setTooltipList] = useState<any[]>([]);
 
     const [maxCharaHealth, setMaxCharaHealth] = useState<any>(null);
     const [charaHealth, setCharaHealth] = useState<number>(0);
@@ -26,8 +28,16 @@ function FightView() {
     const [enemyHealth, setEnemyHealth] = useState<number>(0);
     const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<string>('0%');
 
-    const [enemyAttack, setEnemyAttack] = useState<{ show: boolean, damage: number }>({damage: 0, show: false});
-    const [charaAttack, setCharaAttack] = useState<{ show: boolean, damage: number }>({damage: 0, show: false});
+    const [enemyAttack, setEnemyAttack] = useState<{ show: boolean, damage: number, fightPicture: string }>({
+        damage: 0,
+        show: false,
+        fightPicture: ''
+    });
+    const [charaAttack, setCharaAttack] = useState<{ show: boolean, damage: number, fightPicture: string }>({
+        damage: 0,
+        show: false,
+        fightPicture: ''
+    });
 
     const {t} = useTranslation();
 
@@ -54,13 +64,26 @@ function FightView() {
 
     useEffect(() => {
         if (maxEnemyHealth !== null && maxCharaHealth !== null) {
-            setEnemyAttack({show: false, damage: 0});
-            setCharaAttack({show: false, damage: 0});
+            setEnemyAttack({show: false, damage: 0, fightPicture: ''});
+            setCharaAttack({show: false, damage: 0, fightPicture: ''});
             setTimeout(() => {
                 simulateFightAnimation();
             }, 2000);
         }
     }, [maxEnemyHealth, maxCharaHealth]);
+
+    const setupTooltip = () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        setTooltipList(tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        }));
+    }
+
+    const closeTooltips = () => {
+        tooltipList.forEach(tooltip => {
+            tooltip.hide();
+        });
+    }
 
     const refreshCharacters = () => {
         const token = localStorage.getItem('token');
@@ -98,6 +121,19 @@ function FightView() {
         isBagFull(id).then((response) => {
             setIsCharaBagFull(response);
         });
+    }
+
+    const handleWeaponFightAnimation = () => {
+        switch (fight.characterWeapon.type) {
+            case 'sword':
+                return 'animation-weapon-sword-left'
+            case 'bow':
+                return 'animation-weapon-magic-left'
+            case 'magic_wand':
+                return 'animation-weapon-magic-left'
+            default:
+                return 'animation-weapon-sword-left'
+        }
     }
 
     const findIndex = (id) => {
@@ -142,6 +178,8 @@ function FightView() {
                     setMaxEnemyHealth(null);
                     setMaxCharaHealth(null);
 
+                    setupTooltip();
+
                     setIsVictory(fight.isVictory);
                     setTreasure(fight.treasure);
 
@@ -156,13 +194,17 @@ function FightView() {
             if (round.attacker === 'character') {
                 setEnemyHealth(round.enemyHealth);
                 setEnemyHealthPourcent(getPourcentHealth('enemy', round.enemyHealth));
-                setEnemyAttack({show: false, damage: 0});
-                setCharaAttack({show: true, damage: round.characterDamage});
+                setEnemyAttack({show: false, damage: 0, fightPicture: ''});
+                setCharaAttack({
+                    show: true,
+                    damage: round.characterDamage,
+                    fightPicture: fight.characterWeapon.picture
+                });
             } else {
                 setCharaHealth(round.characterHealth);
                 setCharaHealthPourcent(getPourcentHealth('character', round.characterHealth));
-                setCharaAttack({show: false, damage: 0});
-                setEnemyAttack({show: true, damage: round.enemyDamage});
+                setCharaAttack({show: false, damage: 0, fightPicture: ''});
+                setEnemyAttack({show: true, damage: round.enemyDamage, fightPicture: fight.enemy.fight_picture});
             }
             index++;
         }, 1000);
@@ -171,15 +213,18 @@ function FightView() {
     return (
         <>
             <h1 className="mt-4 text-center">{t('pages.fight.title')}</h1>
-            <div className="d-flex justify-content-center align-items-center mt-4">
-                <button className="btn btn-primary text-white"
-                        disabled={characters.length === 0}
-                        onClick={refreshCharacters}
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalChooseCharacter">
-                    <RiSwordLine></RiSwordLine> {t('pages.fight.launch')} <RiSwordLine></RiSwordLine>
-                </button>
-            </div>
+            {
+                (Object.keys(fight).length === 0) &&
+                <div className="d-flex justify-content-center align-items-center mt-4" onClick={closeTooltips}>
+                    <button className="btn btn-primary text-white"
+                            disabled={characters.length === 0}
+                            onClick={refreshCharacters}
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChooseCharacter">
+                        <RiSwordLine></RiSwordLine> {t('pages.fight.launch')} <RiSwordLine></RiSwordLine>
+                    </button>
+                </div>
+            }
 
             {/*FIGHT*/}
             {
@@ -203,6 +248,16 @@ function FightView() {
                                 - {enemyAttack.damage}
                             </div>
                         }
+                        {
+                            charaAttack.show &&
+                            <div
+                                className={`w-25 h-25 position-absolute top-50 ${charaAttack.show ? handleWeaponFightAnimation() : ''}`}>
+                                <img
+                                    className="img-fluid"
+                                    src={charaAttack.fightPicture}
+                                    alt="sword"/>
+                            </div>
+                        }
                     </div>
                     <div className="w-25 d-flex flex-column align-items-center position-relative">
                         <h5>{fight?.enemy?.name} : niv {fight?.enemy.level}</h5>
@@ -220,6 +275,16 @@ function FightView() {
                             <div
                                 className="badge bg-danger position-absolute fs-6 top-50 animate__animated animate__slower animate__fadeInUp animate__fadeOutUp">
                                 - {charaAttack.damage}
+                            </div>
+                        }
+                        {
+                            enemyAttack.show &&
+                            <div
+                                className={`w-25 h-25 position-absolute top-50 ${enemyAttack.show ? 'animation-weapon-sword-right' : ''}`}>
+                                <img
+                                    className="img-fluid"
+                                    src={enemyAttack.fightPicture}
+                                    alt="sword"/>
                             </div>
                         }
                     </div>
@@ -245,6 +310,9 @@ function FightView() {
                         <div className="mt-3 d-flex flex-column justify-content-center align-items-center"
                              style={{width: '18rem'}}>
                             <img src={treasure.loot_id.picture}
+                                 data-bs-toggle="tooltip"
+                                 data-bs-html="true"
+                                 data-bs-title={tooltip(treasure)}
                                  className={'img-fluid border border-2 ' + `bc-${treasure.rarity.toLowerCase()}`}
                                  alt="treasure-picture"/>
                             <div className="d-flex flex-column">

@@ -20,7 +20,7 @@ import {STATS_TYPE_LIST} from "../utils/constants.ts";
 import {ItemModelCascade} from "../models/item.model.ts";
 import {getItemsByBagId} from "../services/bags.service.ts";
 import {equipItem, getItemById, putInBag, sellItem} from "../services/items.service.ts";
-import {getCumulativeStatFromEquipment} from "../utils/functions.ts";
+import {getCumulativeStatFromEquipment, tooltip} from "../utils/functions.ts";
 import {patchStat} from "../services/stats.service.ts";
 import Badge from "../Components/Badge.tsx";
 import * as bootstrap from "bootstrap";
@@ -79,6 +79,7 @@ function CharacterView() {
 
     const refreshCharacterData = (id: number) => {
         getCharacterById(id).then((data) => {
+            closeTooltips();
             if (data.user_id.user_id !== userId) {
                 navigate('/');
             }
@@ -115,24 +116,6 @@ function CharacterView() {
         tooltipList.forEach(tooltip => {
             tooltip.hide();
         });
-    }
-
-    const tooltip = (item: ItemModelCascade): string => {
-        let result = '';
-        if (item) {
-            const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck'];
-            if (item.charm) {
-                keysToShowInItem.push('charm_type', 'charm_value');
-            }
-
-            // Parcourir les autres propriétés
-            Object.entries(item).forEach(([key, value]) => {
-                if (key !== 'loot_id' && keysToShowInItem.includes(key)) {
-                    result += `<div><b>${t('entities.item.' + key)} :</b> ${value !== null ? value : ''}</div>`;
-                }
-            });
-        }
-        return `<div>${result}</div>`;
     }
 
     const handlePutInBag = () => {
@@ -200,10 +183,10 @@ function CharacterView() {
     }
 
     return (
-        <div>
+        <div onClick={closeTooltips}>
             <h2 className="mt-4 text-center">{t('pages.character.title')} : {character ? character.name : ''}</h2>
 
-            {contextMenu.show && (
+            {(contextMenu.show && itemId) && (
                 <div style={{position: 'absolute', top: contextMenu.y, left: contextMenu.x}}
                      className="context-menu">
                     <div className="menu-item"
@@ -258,9 +241,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.helmet_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.helmet_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.helmet_id &&
@@ -277,9 +260,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.chestplate_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.chestplate_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.chestplate_id &&
@@ -296,9 +279,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.gloves_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.gloves_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.gloves_id &&
@@ -315,9 +298,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.boots_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.boots_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.boots_id &&
@@ -341,9 +324,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.primary_weapon_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.primary_weapon_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.primary_weapon_id &&
@@ -360,9 +343,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.secondary_weapon_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.secondary_weapon_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.secondary_weapon_id &&
@@ -379,9 +362,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.primary_magic_item_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.primary_magic_item_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.primary_magic_item_id &&
@@ -398,9 +381,9 @@ function CharacterView() {
                         <div
                             className={'item-card-space ' + `bc-${character?.equipment_id!.secondary_magic_item_id?.rarity.toLowerCase()}`}
                             onContextMenu={($event) => {
-                                handleContextMenu($event);
-                                setContext('equipment');
                                 setItemId(character?.equipment_id!.secondary_magic_item_id.item_id)
+                                setContext('equipment');
+                                handleContextMenu($event);
                             }}>
                             {
                                 character?.equipment_id!.secondary_magic_item_id &&
@@ -452,9 +435,9 @@ function CharacterView() {
                         return (
                             <div key={index} className={'item-card-space ' + `bc-${bagItems[index]?.rarity.toLowerCase()}`}
                                  onContextMenu={($event) => {
-                                     handleContextMenu($event);
-                                     setContext('bag');
                                      setItemId(bagItems[index].item_id)
+                                     setContext('bag');
+                                     handleContextMenu($event);
                                  }}>
                                 {
                                     bagItems.length > 0 && bagItems[index] &&

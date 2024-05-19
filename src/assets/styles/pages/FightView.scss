@@ -1,0 +1,84 @@
+.animation-weapon-sword-left {
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-name: weapon-sword-left;
+  animation-fill-mode: forwards;
+}
+
+.animation-weapon-sword-right {
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-name: weapon-sword-right;
+  animation-fill-mode: forwards;
+}
+
+.animation-weapon-magic-left {
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-name: weapon-magic-left;
+  animation-fill-mode: forwards;
+}
+
+.animation-weapon-magic-right {
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-name: weapon-magic-right;
+  animation-fill-mode: forwards;
+}
+
+@keyframes weapon-sword-left {
+  0% {
+    transform: rotate(0deg);
+    left: 0;
+    opacity: 100%;
+  }
+
+  100% {
+    transform: rotate(100deg);
+    left: 80vw;
+    opacity: 0;
+  }
+}
+
+@keyframes weapon-sword-right {
+  0% {
+    transform: rotate(0deg);
+    right: 0;
+    opacity: 100%;
+  }
+
+  100% {
+    transform: rotate(-100deg);
+    right: 80vw;
+    opacity: 0;
+  }
+}
+
+@keyframes weapon-magic-left {
+  0% {
+    left: 0;
+    opacity: 100%;
+  }
+
+  100% {
+    left: 80vw;
+    opacity: 0;
+  }
+}
+
+@keyframes weapon-magic-right {
+  0% {
+    right: 0;
+    opacity: 100%;
+  }
+
+  100% {
+    right: 80vw;
+    opacity: 0;
+  }
+}
