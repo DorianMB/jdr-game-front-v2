@@ -127,13 +127,16 @@ export const fr = {
             },
             "alert": {
                 "bag-full": "Le sac de ce personnage est plein, impossible de lancer un combat",
+                "changelog": "Pour voir le changelog, cliquez ici",
+                "see": "Voir",
             }
         },
         "pages": {
             "home": {
                 "title": "Accueil",
                 "character": "personnage",
-                "create": "Créer un personnage"
+                "create": "Créer un personnage",
+                "changelog": "Changelog",
             },
             "character": {
                 "title": "Détail du personnage",

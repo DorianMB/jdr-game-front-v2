@@ -6,6 +6,7 @@ import {getCharacterByUserId, postCharacter} from "../services/characters.servic
 import {useNavigate} from "react-router-dom";
 import {RiAddLine} from "@remixicon/react";
 import {useTranslation} from "react-i18next";
+import {getChangelog} from "../assets/changelogs.ts";
 
 function HomeView() {
     const [decodedToken, setDecodedToken] = useState<{ username: string, sub: number } | null>(null);
@@ -14,6 +15,8 @@ function HomeView() {
     const navigate = useNavigate();
 
     const {t} = useTranslation();
+
+    const changelog = getChangelog("1.0.1");
 
     useEffect(() => {
         authGuard();
@@ -78,7 +81,51 @@ function HomeView() {
                 }
             </div>
 
-            {/*MODAL*/}
+            {/*ALERT CHANGELOG*/}
+            {
+                changelog.length > 0 &&
+                <div
+                    className="alert alert-info alert-dismissible mx-auto w-50 d-flex align-items-center justify-content-between"
+                    role="alert">
+                    {t('components.alert.changelog')}
+                    <button type="button" className="btn btn-primary text-white me-3" data-bs-toggle="modal"
+                            data-bs-target="#modalChangelog">{t('components.alert.see')}</button>
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            {/*MODAL CHNAGELOG*/}
+            <div className="modal fade" id="modalChangelog" tabIndex={-1}
+                 aria-labelledby="modalChangelogLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5"
+                                id="modalChangelogLabel">{t('pages.home.changelog')}</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <ul>
+                                {
+                                    changelog.map((change, index) => {
+                                        return (
+                                            <li className="my-2" key={index}>{change}</li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary text-white"
+                                    data-bs-dismiss="modal">{t('components.modal.close')}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*MODAL NEW CHARA*/}
             <div className="modal modal-detail fade" id="modalCreate" tabIndex={-1}
                  aria-labelledby="modalCreateLabel"
                  aria-hidden="true">
