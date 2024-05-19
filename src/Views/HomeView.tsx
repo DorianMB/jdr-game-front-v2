@@ -16,7 +16,7 @@ function HomeView() {
 
     const {t} = useTranslation();
 
-    const changelog = getChangelog("1.0.1");
+    const changelog = getChangelog(import.meta.env.VITE_APP_VERSION);
 
     useEffect(() => {
         authGuard();
