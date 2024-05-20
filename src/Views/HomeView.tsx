@@ -85,7 +85,7 @@ function HomeView() {
             {
                 changelog.length > 0 &&
                 <div
-                    className="alert alert-info alert-dismissible mx-auto w-50 d-flex align-items-center justify-content-between"
+                    className="alert alert-info alert-dismissible alerte-changelog d-flex align-items-center justify-content-between"
                     role="alert">
                     {t('components.alert.changelog')}
                     <button type="button" className="btn btn-primary text-white me-3" data-bs-toggle="modal"

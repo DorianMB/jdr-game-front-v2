@@ -52,3 +52,9 @@ $bg-url: "https://cdn.midjourney.com/1cf6c942-a3cc-4f77-8874-97eef71e0c01/0_3.we
 .alert-dismissible .btn-close {
   top: unset;
 }
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

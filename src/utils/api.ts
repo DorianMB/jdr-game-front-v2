@@ -31,3 +31,4 @@ export const ITEMS_GENERATE = ITEMS + '/generate';
 export const ITEMS_EQUIP = ITEMS + '/equip';
 export const ITEMS_PUTINBAG = ITEMS + '/putInBag';
 export const ITEMS_SELL = ITEMS + '/sell';
+export const ITEMS_SHOP = ITEMS + '/shop';

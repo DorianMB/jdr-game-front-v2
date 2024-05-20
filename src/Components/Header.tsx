@@ -6,6 +6,7 @@ import {
     RiAdminLine,
     RiHome2Line,
     RiLoginCircleLine,
+    RiShoppingBasketLine,
     RiShutDownLine,
     RiSwordLine,
     RiUserAddLine
@@ -81,15 +82,22 @@ function Header() {
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              aria-current="page"
                                              to="/">
-                                        <RiHome2Line className="me-4 me-lg-2 text-rare"></RiHome2Line>
+                                        <RiHome2Line className="me-4 me-lg-2 text-uncommon"></RiHome2Line>
                                         Home
                                     </NavLink>
                                 </li>
                                 <li className="nav-item" onClick={handleNavCollapse}>
                                     <NavLink className={"nav-link d-flex align-items-center me-2"}
                                              to="/fight">
-                                        <RiSwordLine className="me-4 me-lg-2 text-epic"></RiSwordLine>
+                                        <RiSwordLine className="me-4 me-lg-2 text-rare"></RiSwordLine>
                                         Fight
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item" onClick={handleNavCollapse}>
+                                    <NavLink className={"nav-link d-flex align-items-center me-2"}
+                                             to="/shop">
+                                        <RiShoppingBasketLine className="me-4 me-lg-2 text-epic"></RiShoppingBasketLine>
+                                        Shop
                                     </NavLink>
                                 </li>
                                 {(user && user.is_admin === 1) && (

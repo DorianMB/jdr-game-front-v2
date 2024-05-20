@@ -82,3 +82,13 @@
     opacity: 0;
   }
 }
+
+.alerte-changelog {
+  width: 75%;
+  margin: 2rem auto;
+
+  @media (min-width: 800px) {
+    width: 50%;
+    margin: 2rem auto;
+  }
+}

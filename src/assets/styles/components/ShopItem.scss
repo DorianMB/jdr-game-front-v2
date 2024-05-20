@@ -1,0 +1,14 @@
+.shop-item {
+  width: 200px;
+  border-radius: $radius;
+  border: none;
+  box-shadow: $shadow;
+  display: flex;
+  flex-direction: column;
+
+  img {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+}

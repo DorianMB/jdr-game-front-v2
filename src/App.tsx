@@ -6,6 +6,7 @@ import AdminView from "./Views/AdminView.tsx";
 import Header from "./Components/Header.tsx";
 import CharacterView from "./Views/CharacterView.tsx";
 import FightView from "./Views/FightView.tsx";
+import ShopView from "./Views/ShopView.tsx";
 
 const version = import.meta.env.VITE_APP_VERSION;
 
@@ -20,8 +21,9 @@ function App() {
                 <Route path="/admin" element={<AdminView/>}/>
                 <Route path="/character/:id" element={<CharacterView/>}/>
                 <Route path="/fight" element={<FightView/>}/>
+                <Route path="/shop" element={<ShopView/>}/>
             </Routes>
-            <span className="badge bg-uncommon badge-version">{version}</span>
+            <span className="badge bg-info badge-version">{version}</span>
         </>
     )
 }

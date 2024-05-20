@@ -60,3 +60,9 @@ export const sellItem = async (info: {
     const response = await axios.patch(ITEMS_SELL, info, jwtHeader(token!));
     return response.data;
 }
+
+export const getShopItems = async (characterId: number): Promise<ItemModelCascade[]> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(ITEMS + '/shop/' + characterId, jwtHeader(token!));
+    return response.data;
+}
