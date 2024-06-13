@@ -5,7 +5,7 @@ export interface ItemModel {
     loot_id: number;
     bag_id: number;
     owned: boolean;
-    in_shop: number;
+    in_shop: number | null;
     level: number;
     price: number;
     rarity: string;
@@ -27,7 +27,7 @@ export interface ItemModelCascade {
     loot_id: LootTableModel;
     bag_id: number;
     owned: boolean;
-    in_shop: number;
+    in_shop: number | null;
     level: number;
     price: number;
     rarity: string;

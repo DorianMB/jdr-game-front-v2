@@ -21,7 +21,7 @@ export const postItem = async (item: ItemModel): Promise<ItemModel> => {
     return response.data;
 }
 
-export const patchItem = async (item: Partial<ItemModel>): Promise<ItemModel> => {
+export const patchItem = async (item: Partial<ItemModel | ItemModelCascade>): Promise<ItemModel> => {
     const token = localStorage.getItem('token');
     const response = await axios.patch(ITEMS, item, jwtHeader(token!));
     return response.data;
