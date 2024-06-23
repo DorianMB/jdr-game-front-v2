@@ -100,6 +100,8 @@ export const fr = {
                 "level": "Niveau",
                 "price": "Prix",
                 "rarity": "Rareté",
+                "damage": "Dégâts",
+                "armor": "Armure",
                 "strength": "Force",
                 "intelligence": "Intelligence",
                 "speed": "Vitesse",
@@ -146,6 +148,14 @@ export const fr = {
                     "equip": "Equiper",
                     "sell": "Vendre"
                 }
+            },
+            "shop": {
+                "title": "Boutique",
+                "select": "Choisir un personnage",
+                "money": "Argent",
+                "buy": "Acheter",
+                "success": "Achat réussi",
+                "error": "Erreur lors de l'achat",
             },
             "fight": {
                 "title": "Combat",

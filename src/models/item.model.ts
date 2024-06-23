@@ -9,6 +9,8 @@ export interface ItemModel {
     level: number;
     price: number;
     rarity: string;
+    damage: number;
+    armor: number;
     strength: number;
     intelligence: number;
     speed: number;
@@ -31,6 +33,9 @@ export interface ItemModelCascade {
     level: number;
     price: number;
     rarity: string;
+    damage: number;
+    armor: number;
+    s
     strength: number;
     intelligence: number;
     speed: number;

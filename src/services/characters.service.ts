@@ -1,7 +1,7 @@
 import axios from "axios";
 import {CHARACTERS, CHARACTERS_FIGHT, CHARACTERS_USER} from "../utils/api.ts";
 import {jwtHeader} from "../utils/header.ts";
-import {CharacterModel} from "../models/character.model.ts";
+import {CharacterModel, CharacterModelCascade} from "../models/character.model.ts";
 
 export const getCharacters = async () => {
     const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ export const postCharacter = async (data: CharacterModel) => {
     return response.data;
 }
 
-export const patchCharacter = async (data: CharacterModel) => {
+export const patchCharacter = async (data: Partial<CharacterModel | CharacterModelCascade>) => {
     const token = localStorage.getItem('token');
     const response = await axios.patch(CHARACTERS, data, jwtHeader(token!));
     return response.data;

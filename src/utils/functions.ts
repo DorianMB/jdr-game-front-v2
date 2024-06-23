@@ -51,6 +51,12 @@ export const tooltip = (item: ItemModelCascade): string => {
         if (item.charm) {
             keysToShowInItem.push('charm_type', 'charm_value');
         }
+        if (item.damage) {
+            keysToShowInItem.push('damage');
+        }
+        if (item.armor) {
+            keysToShowInItem.push('armor');
+        }
 
         // Parcourir les autres propriétés
         Object.entries(item).forEach(([key, value]) => {

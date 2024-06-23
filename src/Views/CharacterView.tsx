@@ -44,7 +44,7 @@ function CharacterView() {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
-    const keysToShowInItem = ['rarity', 'price', 'level', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck', 'charm_type', 'charm_value'];
+    const keysToShowInItem = ['rarity', 'price', 'level', 'damage', 'armor', 'strength', 'intelligence', 'speed', 'charisma', 'health', 'luck', 'charm_type', 'charm_value'];
     const keysToShowInLoot = ['name', 'description'];
 
     useEffect(() => {

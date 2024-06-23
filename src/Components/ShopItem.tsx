@@ -5,6 +5,8 @@ import * as bootstrap from "bootstrap";
 import {useEffect, useState} from "react";
 import {CharacterModelCascade} from "../models/character.model.ts";
 import {patchItem} from "../services/items.service.ts";
+import {patchCharacter} from "../services/characters.service.ts";
+import {useTranslation} from "react-i18next";
 
 interface ShopItemProps {
     item: ItemModelCascade;
@@ -14,6 +16,8 @@ interface ShopItemProps {
 
 function ShopItem({item, character, updateShop}: ShopItemProps) {
     const [tooltipList, setTooltipList] = useState<any[]>([]);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         closeTooltips();
@@ -39,7 +43,12 @@ function ShopItem({item, character, updateShop}: ShopItemProps) {
         item.owned = true;
         item.in_shop = null;
 
-        patchItem(item).then(() => {
+        character.money -= item.price;
+
+        Promise.all([
+            patchItem(item),
+            patchCharacter(character)
+        ]).then(() => {
             updateShop();
         });
     }
@@ -63,7 +72,7 @@ function ShopItem({item, character, updateShop}: ShopItemProps) {
                             <button className="btn btn-primary" onClick={() => {
                                 buyItem(item)
                             }}>
-                                Acheter
+                                {t('pages.shop.buy')}
                             </button>
                         </div>
                     </div>
