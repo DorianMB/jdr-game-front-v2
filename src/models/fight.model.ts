@@ -16,6 +16,8 @@ export interface Enemy {
     name: string;
     level: number;
     stat: StatModel;
+    damage: number;
+    armor: number;
     picture: string;
     fight_picture: string;
 }

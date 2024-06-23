@@ -24,9 +24,16 @@ function FightView() {
     const [maxCharaHealth, setMaxCharaHealth] = useState<any>(null);
     const [charaHealth, setCharaHealth] = useState<number>(0);
     const [charaHealthPourcent, setCharaHealthPourcent] = useState<string>('0%');
+    const [maxCharaArmor, setMaxCharaArmor] = useState<any>(null);
+    const [charaArmor, setCharaArmor] = useState<number>(0);
+    const [charaArmorPourcent, setCharaArmorPourcent] = useState<string>('0%');
+
     const [maxEnemyHealth, setMaxEnemyHealth] = useState<any>(null);
     const [enemyHealth, setEnemyHealth] = useState<number>(0);
     const [enemyHealthPourcent, setEnemyHealthPourcent] = useState<string>('0%');
+    const [maxEnemyArmor, setMaxEnemyArmor] = useState<any>(null);
+    const [enemyArmor, setEnemyArmor] = useState<number>(0);
+    const [enemyArmorPourcent, setEnemyArmorPourcent] = useState<string>('0%');
 
     const [enemyAttack, setEnemyAttack] = useState<{ show: boolean, damage: number, fightPicture: string }>({
         damage: 0,
@@ -53,12 +60,14 @@ function FightView() {
     useEffect(() => {
         if (maxEnemyHealth !== null) {
             setEnemyHealthPourcent(getPourcentHealth('enemy', fight.enemy.stat.health));
+            setEnemyArmorPourcent(getPourcentArmor('enemy', fight.enemy.armor));
         }
     }, [maxEnemyHealth]);
 
     useEffect(() => {
         if (maxCharaHealth !== null) {
             setCharaHealthPourcent(getPourcentHealth('character', characters[findIndex(characterId)].stat_id.health));
+            setCharaArmorPourcent(getPourcentArmor('character', characters[findIndex(characterId)].stat_id.intelligence));
         }
     }, [maxCharaHealth]);
 
@@ -103,6 +112,12 @@ function FightView() {
             setMaxCharaHealth(chara.stat_id.health + cumulative);
             setCharaHealthPourcent('100%');
         });
+        getCumulativeStatFromEquipment(chara.equipment_id, 'armor').then((response) => {
+            const cumulative = response;
+            setCharaArmor(chara.stat_id.intelligence + cumulative);
+            setMaxCharaArmor(chara.stat_id.intelligence + cumulative);
+            setCharaArmorPourcent('100%');
+        });
     }
 
     const handleLaunch = (id: number) => {
@@ -110,6 +125,8 @@ function FightView() {
             setFight(response);
             setEnemyHealth(response.enemy.stat.health);
             setMaxEnemyHealth(response.enemy.stat.health);
+            setEnemyArmor(response.enemy.armor);
+            setMaxEnemyArmor(response.enemy.armor);
             setCharacterHealth(characterId);
             setTreasure({} as ItemModelCascade);
             setIsVictory(false);
@@ -164,6 +181,22 @@ function FightView() {
                 return '0%';
             }
             const value = ((health / maxEnemyHealth) * 100);
+            return value < 0 ? 0 + '%' : value + '%';
+        }
+    }
+
+    const getPourcentArmor = (type: string, armor) => {
+        if (type === 'character') {
+            if (maxCharaArmor === 0) {
+                return '0%';
+            }
+            const value = ((armor / maxCharaArmor) * 100);
+            return value < 0 ? 0 + '%' : value + '%';
+        } else {
+            if (maxEnemyArmor === 0) {
+                return '0%';
+            }
+            const value = ((armor / maxEnemyArmor) * 100);
             return value < 0 ? 0 + '%' : value + '%';
         }
     }
@@ -241,6 +274,12 @@ function FightView() {
                                  style={{width: charaHealthPourcent}}>{charaHealth}
                             </div>
                         </div>
+                        <div className="progress w-100" role="progressbar" aria-label="armor character"
+                             aria-valuemin={0} aria-valuemax={100}>
+                            <div className="progress-bar bg-info"
+                                 style={{width: charaArmorPourcent}}>{charaArmor}
+                            </div>
+                        </div>
                         {
                             enemyAttack.show &&
                             <div
@@ -268,6 +307,12 @@ function FightView() {
                              aria-valuemin={0} aria-valuemax={100}>
                             <div className="progress-bar bg-success"
                                  style={{width: enemyHealthPourcent}}>{enemyHealth}
+                            </div>
+                        </div>
+                        <div className="progress w-100" role="progressbar" aria-label="armor enemy"
+                             aria-valuemin={0} aria-valuemax={100}>
+                            <div className="progress-bar bg-info"
+                                 style={{width: enemyArmorPourcent}}>{enemyArmor}
                             </div>
                         </div>
                         {

@@ -113,9 +113,11 @@ function CharacterView() {
     }
 
     const closeTooltips = () => {
-        tooltipList.forEach(tooltip => {
-            tooltip.hide();
-        });
+        setTimeout(() => {
+            tooltipList.forEach(tooltip => {
+                tooltip.hide();
+            });
+        }, 200);
     }
 
     const handlePutInBag = () => {
