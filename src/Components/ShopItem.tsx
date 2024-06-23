@@ -69,7 +69,7 @@ function ShopItem({item, character, updateShop}: ShopItemProps) {
                             {item.price + ' '}
                             <RiCoinFill></RiCoinFill>
                         </span>
-                            <button className="btn btn-primary" onClick={() => {
+                            <button className="btn btn-primary" disabled={character.money < item.price} onClick={() => {
                                 buyItem(item)
                             }}>
                                 {t('pages.shop.buy')}
